@@ -7,6 +7,9 @@ public interface IWeatherService
 }
 public class WeatherService : IWeatherService
 {
+    // Caps concurrent Open-Meteo requests to avoid HTTP 429 when many lighthouses load in parallel.
+    private static readonly SemaphoreSlim _concurrencyLimiter = new(5, 5);
+
     private readonly HttpClient _httpClient;
     private readonly ILogger<WeatherService> _logger;
     public WeatherService(HttpClient httpClient, ILogger<WeatherService> logger)
@@ -16,6 +19,7 @@ public class WeatherService : IWeatherService
     }
     public async Task<WeatherInfo?> GetWeatherAsync(double latitude, double longitude)
     {
+        await _concurrencyLimiter.WaitAsync();
         try
         {
             var url = string.Format(
@@ -36,6 +40,10 @@ public class WeatherService : IWeatherService
         {
             _logger.LogError(ex, "Failed to fetch weather for ({Lat}, {Lon})", latitude, longitude);
             return null;
+        }
+        finally
+        {
+            _concurrencyLimiter.Release();
         }
     }
 }
