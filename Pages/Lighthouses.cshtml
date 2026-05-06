@@ -1,0 +1,39 @@
+﻿@page
+@model LighthousesModel
+@{
+    ViewData["Title"] = "Lighthouses";
+}
+<h1 class="alh-page-title">Argentina Lighthouses</h1>
+<p class="alh-page-subtitle">@Model.Lighthouses.Count lighthouses with live weather conditions.</p>
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+    @foreach (var lh in Model.Lighthouses)
+    {
+        <div class="col">
+            <div class="card alh-card p-3">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="card-title">@lh.Name</div>
+                        <div class="card-subtitle mb-2">@lh.Location</div>
+                        <p class="card-text" style="font-size:0.85rem;color:#cce4f5">@lh.Description</p>
+                    </div>
+                    @if (lh.Weather != null)
+                    {
+                        <span class="weather-icon ms-2">@lh.Weather.WeatherIcon</span>
+                    }
+                </div>
+                @if (lh.Weather != null)
+                {
+                    <div class="border-top mt-2 pt-2" style="border-color:var(--alh-light-blue)!important">
+                        <span class="temp">@lh.Weather.TemperatureC.ToString("F1") C</span>
+                        <span class="weather-desc ms-2">@lh.Weather.WeatherDescription</span>
+                        <div class="wind mt-1">Wind: @lh.Weather.WindSpeedKmh.ToString("F1") km/h</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="border-top mt-2 pt-2" style="color:#cce4f5;font-size:0.85rem">Weather data unavailable</div>
+                }
+            </div>
+        </div>
+    }
+</div>

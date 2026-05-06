@@ -1,0 +1,68 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Map";
+}
+<div class="mb-3">
+    <h1 class="alh-page-title">Map of Argentina Lighthouses</h1>
+    <p class="alh-page-subtitle">@Model.Lighthouses.Count lighthouses positioned on the map with live weather from Open-Meteo.</p>
+</div>
+<div id="lighthouse-map"></div>
+@section Scripts {
+<script>
+    const lighthouses = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Lighthouses.Select(lh => new {
+        name = lh.Name,
+        location = lh.Location,
+        description = lh.Description,
+        lat = lh.Latitude,
+        lon = lh.Longitude,
+        weather = lh.Weather == null ? null : (object)new {
+            icon = lh.Weather.WeatherIcon,
+            desc = lh.Weather.WeatherDescription,
+            temp = lh.Weather.TemperatureC,
+            wind = lh.Weather.WindSpeedKmh
+        }
+    })));
+
+    const map = L.map("lighthouse-map").setView([-38.5, -63.5], 4);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"
+    }).addTo(map);
+
+    const lighthouseSvg = [
+        '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="48" viewBox="0 0 36 48">',
+        '  <polygon points="18,10 36,0 36,4 18,13" fill="#FFE066" opacity="0.7"/>',
+        '  <polygon points="18,10 0,0 0,4 18,13"  fill="#FFE066" opacity="0.7"/>',
+        '  <rect x="12" y="5" width="12" height="7" rx="2" fill="#1a3a5c" stroke="#4a90c4" stroke-width="1"/>',
+        '  <rect x="13" y="6" width="10" height="5" rx="1" fill="#FFE066"/>',
+        '  <polygon points="11,5 18,1 25,5" fill="#c0392b"/>',
+        '  <rect x="13" y="12" width="10" height="22" fill="white" stroke="#4a90c4" stroke-width="0.8"/>',
+        '  <rect x="13" y="15" width="10" height="4" fill="#c0392b"/>',
+        '  <rect x="13" y="23" width="10" height="4" fill="#c0392b"/>',
+        '  <rect x="13" y="31" width="10" height="3" fill="#c0392b"/>',
+        '  <rect x="11" y="11" width="14" height="2" rx="1" fill="#1a3a5c" stroke="#4a90c4" stroke-width="0.8"/>',
+        '  <rect x="10" y="34" width="16" height="4" rx="1" fill="#1a3a5c" stroke="#4a90c4" stroke-width="0.8"/>',
+        '  <rect x="16" y="29" width="4" height="5" rx="1" fill="#1a3a5c"/>',
+        '  <path d="M4,42 Q9,39 14,42 Q19,45 24,42 Q29,39 34,42" stroke="#4a90c4" stroke-width="1.5" fill="none"/>',
+        '  <path d="M2,45 Q8,42 14,45 Q20,48 26,45 Q30,42 35,45" stroke="#7ec8e3" stroke-width="1.2" fill="none" opacity="0.7"/>',
+        '</svg>'
+    ].join("");
+
+    const lighthouseIcon = L.divIcon({
+        html: lighthouseSvg,
+        className: "alh-map-icon",
+        iconSize: [36, 48],
+        iconAnchor: [18, 46],
+        popupAnchor: [0, -46]
+    });
+
+    lighthouses.forEach(lh => {
+        const weatherHtml = lh.weather
+            ? "<div class=\"popup-weather\"><div><span class=\"popup-temp\">" + lh.weather.temp.toFixed(1) + "C</span><br><span class=\"popup-wind\">Wind: " + lh.weather.wind.toFixed(1) + " km/h | " + lh.weather.desc + "</span></div></div>"
+            : "<p style=\"color:#cce4f5;font-size:0.85rem\">Weather unavailable</p>";
+        const popup = "<div><div class=\"popup-title\">" + lh.name + "</div><div class=\"popup-location\">" + lh.location + "</div><div style=\"color:#e0f0ff;font-size:0.83rem;margin-bottom:4px\">" + lh.description + "</div>" + weatherHtml + "</div>";
+        L.marker([lh.lat, lh.lon], { icon: lighthouseIcon }).addTo(map).bindPopup(popup, { maxWidth: 260 });
+    });
+</script>
+}

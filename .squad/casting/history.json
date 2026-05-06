@@ -1,0 +1,21 @@
+{
+  "universe_usage_history": [
+    {
+      "universe": "The Lord of the Rings",
+      "assignment_id": "argentina-lighthouses-2026-05-06",
+      "used_at": "2026-05-06T00:55:53-03:00"
+    }
+  ],
+  "assignment_cast_snapshots": {
+    "argentina-lighthouses-2026-05-06": {
+      "universe": "The Lord of the Rings",
+      "agents": {
+        "lead": "Gandalf",
+        "backend-dev": "Gimli",
+        "frontend-dev": "Legolas",
+        "tester": "Aragorn"
+      },
+      "created_at": "2026-05-06T00:55:53-03:00"
+    }
+  }
+}

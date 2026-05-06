@@ -1,0 +1,90 @@
+## .NET 10 / ASP.NET Core build outputs
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+!**/[Pp]ackages/build/
+*.nuspec
+
+# .NET runtime / publish output
+publish/
+**/publish/
+**/.publish/
+
+# MSBuild binary logs
+*.binlog
+
+# Visual Studio cache/options
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Rider
+.idea/
+
+# Compiled binary extensions
+*.exe
+*.dll
+*.pdb
+*.lib
+*.exp
+*.ilk
+*.cache
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*_wpftmp.csproj
+*.log
+*.vspscc
+*.vssscc
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Roslyn cache
+*.roslynanalyzer
+
+# ASP.NET / Razor
+ScaffoldingReadMe.txt
+bundleconfig.json.bak
+
+# Node / npm (if used for front-end assets)
+node_modules/
+npm-debug.log
+yarn-error.log
+.parcel-cache/
+dist/
+
+# Squad: ignore runtime state (logs, inbox, sessions)
+.squad/orchestration-log/
+.squad/log/
+.squad/decisions/inbox/
+.squad/sessions/
+.squad/.scratch/
+# Squad: SubSquad activation file (local to this machine)
+.squad-workstream

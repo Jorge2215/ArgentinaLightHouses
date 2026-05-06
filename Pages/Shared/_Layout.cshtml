@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Argentina Lighthouses</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ArgentinaLightHouses.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm alh-navbar">
+            <div class="container-fluid">
+                <a class="navbar-brand alh-brand" asp-area="" asp-page="/Index">
+                    ?? Argentina Lighthouses
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link alh-nav-link" asp-area="" asp-page="/Index">??? Map</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link alh-nav-link" asp-area="" asp-page="/Lighthouses">?? List</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="alh-main">
+        @RenderBody()
+    </main>
+
+    <footer class="alh-footer">
+        <div class="container text-center">
+            <span>? &copy; 2026 Argentina Lighthouses &nbsp;|&nbsp; Weather by <a href="https://open-meteo.com" target="_blank" class="alh-footer-link">Open-Meteo</a> &nbsp;|&nbsp; Maps by <a href="https://www.openstreetmap.org" target="_blank" class="alh-footer-link">OpenStreetMap</a></span>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

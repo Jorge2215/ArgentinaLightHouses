@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ArgentinaLightHouses.csproj" />
+  <Project Path="ArgentinaLightHouses.Tests\ArgentinaLightHouses.Tests.csproj" />
+</Solution>

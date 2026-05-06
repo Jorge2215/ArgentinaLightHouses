@@ -1,0 +1,191 @@
+:root {
+    --alh-dark-blue: #0a1628;
+    --alh-mid-blue: #1a3a5c;
+    --alh-light-blue: #4a90c4;
+    --alh-pale-blue: #cce4f5;
+    --alh-white: #ffffff;
+    --alh-accent: #7ec8e3;
+}
+
+html, body {
+    height: 100%;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--alh-dark-blue);
+    color: var(--alh-white);
+}
+
+/* -- Navbar -- */
+.alh-navbar {
+    background: linear-gradient(90deg, var(--alh-dark-blue) 0%, var(--alh-mid-blue) 100%);
+    border-bottom: 2px solid var(--alh-light-blue);
+    padding: 0.6rem 1.2rem;
+}
+
+.alh-brand {
+    color: var(--alh-white) !important;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.alh-nav-link {
+    color: var(--alh-pale-blue) !important;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.alh-nav-link:hover {
+    color: var(--alh-accent) !important;
+}
+
+/* -- Main -- */
+.alh-main {
+    min-height: calc(100vh - 120px);
+    padding: 1.5rem;
+}
+
+/* -- Footer -- */
+.alh-footer {
+    background: var(--alh-mid-blue);
+    border-top: 2px solid var(--alh-light-blue);
+    color: var(--alh-pale-blue);
+    padding: 0.8rem 0;
+    font-size: 0.85rem;
+}
+
+.alh-footer-link {
+    color: var(--alh-accent);
+    text-decoration: none;
+}
+
+.alh-footer-link:hover {
+    color: var(--alh-white);
+    text-decoration: underline;
+}
+
+/* -- Page titles -- */
+.alh-page-title {
+    color: var(--alh-white);
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.alh-page-subtitle {
+    color: var(--alh-pale-blue);
+    margin-bottom: 1.5rem;
+}
+
+/* -- Map -- */
+#lighthouse-map {
+    height: 620px;
+    width: 100%;
+    border-radius: 12px;
+    border: 2px solid var(--alh-light-blue);
+    box-shadow: 0 4px 24px rgba(74,144,196,0.25);
+}
+
+/* -- Cards (List page) -- */
+.alh-card {
+    background: var(--alh-mid-blue);
+    border: 1px solid var(--alh-light-blue);
+    border-radius: 10px;
+    color: var(--alh-white);
+    transition: transform 0.15s, box-shadow 0.15s;
+    height: 100%;
+}
+
+.alh-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(74,144,196,0.35);
+}
+
+.alh-card .card-title {
+    color: var(--alh-accent);
+    font-weight: 700;
+}
+
+.alh-card .card-subtitle {
+    color: var(--alh-pale-blue);
+}
+
+.alh-card .weather-icon {
+    font-size: 2rem;
+}
+
+.alh-card .temp {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--alh-white);
+}
+
+.alh-card .weather-desc {
+    color: var(--alh-pale-blue);
+    font-size: 0.9rem;
+}
+
+.alh-card .wind {
+    color: var(--alh-pale-blue);
+    font-size: 0.85rem;
+}
+
+/* -- Leaflet popup override -- */
+.leaflet-popup-content-wrapper {
+    background: var(--alh-mid-blue);
+    color: var(--alh-white);
+    border: 1px solid var(--alh-light-blue);
+    border-radius: 8px;
+}
+
+.leaflet-popup-tip {
+    background: var(--alh-mid-blue);
+}
+
+.leaflet-popup-content {
+    margin: 10px 14px;
+}
+
+.popup-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--alh-accent);
+}
+
+.popup-location {
+    color: var(--alh-pale-blue);
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+}
+
+.popup-weather {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.popup-temp {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.popup-wind {
+    color: var(--alh-pale-blue);
+    font-size: 0.8rem;
+}
+
+/* -- Loading spinner -- */
+.alh-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--alh-pale-blue);
+    margin-bottom: 1rem;
+}
+
+/* -- Badges -- */
+.badge-alh {
+    background-color: var(--alh-light-blue);
+    color: var(--alh-white);
+}
+
