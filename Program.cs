@@ -1,4 +1,4 @@
-//App by Squad and Jorgito
+//App by Squad and Jorgito.
 using ArgentinaLightHouses.Services;
 
 var builder = WebApplication.CreateBuilder(args);
