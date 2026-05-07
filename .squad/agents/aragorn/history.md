@@ -11,6 +11,15 @@
 
 ## Learnings
 
+### 2026-05-06T21:21:14-03:00 — Test project structure findings
+
+- **Test project file:** ArgentinaLightHouses.Tests.csproj
+- **Target framework:** net10.0
+- **Test framework:** xUnit (xunit 2.9.3, xunit.runner.visualstudio 3.1.4)
+- **Test files:** LighthouseRepositoryTests.cs
+- **Project reference:** References main project via <ProjectReference Include="..\ArgentinaLightHouses.csproj" />
+- **CI notes:** All required test runner packages present. Main project excludes test files from its build via <Compile Remove="ArgentinaLightHouses.Tests\**" />. No CI-specific issues detected for dotnet test on .NET 10.
+
 ### 2026-05-06T01:10:34-03:00 — LighthouseRepository test suite
 
 - **Created** `ArgentinaLightHouses.Tests/` with xUnit (net10.0). Used `dotnet new xunit` because the template correctly sets `<Using Include="Xunit" />` as a global implicit using, which is required for the `[Fact]` attribute to resolve without an explicit `using Xunit;` statement.
