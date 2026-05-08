@@ -11,6 +11,16 @@
 
 ## Learnings
 
+### 2026-05-07 — Popup image support
+
+- **Image section pattern:** Added `imageHtml` variable in the `forEach` loop (mirroring `weatherHtml`). Uses a JS template literal with `lh.imageUrl ? \`...\` : ""` so no image section is rendered at all when the field is null/undefined.
+- **`imageUrl` field:** Serialized by Gimli on the backend. On the JS side it is simply falsy when absent — no defensive code needed beyond the ternary.
+- **maxWidth bump:** Increased Leaflet popup `maxWidth` from `260` to `300` to give the 180px-tall photo room without horizontal scroll.
+- **CSS — `.popup-lighthouse-img`:** `width:100%; max-height:180px; object-fit:cover; border-radius:4px; display:block; margin-bottom:8px`. Lives in the `/* -- Popup image -- */` section of `wwwroot/css/site.css`.
+- **CSS — `.popup-attribution`:** `font-size:0.65rem`, `color: var(--alh-pale-blue)`, `margin:0 0 6px 0`. Link inherits the same muted color.
+- **Accessibility:** `<img>` carries `alt="${lh.name}"` and `loading="lazy"`.
+- **Backward compat:** Existing lighthouses without `imageUrl` render identically to before — no placeholder, no gap.
+
 ### 2026-05-06 — Map & Weather UI architecture
 
 - **Map page (`Index.cshtml`):** Uses Leaflet (`L.map`). All lighthouse data — including weather — is serialized server-side into a `const lighthouses = [...]` JS variable at page render time via `@Html.Raw(JsonSerializer.Serialize(...))`. There is **no AJAX call on marker click**; data is fully baked into the page.

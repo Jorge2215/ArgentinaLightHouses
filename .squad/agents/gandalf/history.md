@@ -50,6 +50,28 @@
 - `.github/workflows/azure-deploy.yml` — new workflow file
 - `.squad/decisions/inbox/gandalf-azure-deploy.md` — decision recorded
 
+### 2026-05-07 — Architecture assessment: lighthouse photographs in map popup
+
+**Task:** Jorge2215 wants to show a small photograph of each lighthouse inside the Leaflet map popup card. Assessed feasibility and proposed an approach.
+
+**Codebase findings:**
+- `Lighthouse` model has: Name, Location, Latitude, Longitude, Description, Weather. No image field.
+- `LighthouseRepository.cs` is a static list of 61 hardcoded entries — no database, no dynamic catalogue.
+- `Index.cshtml` serializes the lighthouse list to a JS array at render time; popup HTML is built via string concatenation inside a `forEach` loop. Popup `maxWidth` is 260px.
+- `WeatherService` is the only external HTTP service; it is registered via `AddHttpClient<IWeatherService, WeatherService>()` in `Program.cs`.
+- No existing image infrastructure of any kind.
+
+**Options evaluated:**
+1. Wikimedia Commons API at startup (on-demand per lighthouse, server-side) — free, no key, ~40–60% coverage, medium complexity.
+2. Flickr API — requires key, unreliable coverage, complex licensing. Rejected.
+3. Curated `ImageUrl` in the data model (Wikimedia Commons static URLs) — free, permanent URLs, 100% reliable for populated entries, low code complexity, one-time curation effort. **Recommended.**
+4. Backend proxy / on-demand search per popup interaction — adds latency and a new controller surface for no benefit over static curation. Rejected.
+
+**Decision:** Option 3. The lighthouse list is static; on-demand image search adds complexity with no functional gain. Add `string? ImageUrl` to `Lighthouse`, populate with curated Wikimedia Commons URLs in the repository, render `<img>` in popup when non-null with CC attribution.
+
+**Files created:**
+- `.squad/decisions/inbox/gandalf-lighthouse-images.md` — full decision with work item breakdown
+
 ### 2026-05-06 — Switched deployment auth from Publish Profile to OIDC
 
 **Task:** Azure App Service blocks Basic Auth / Publish Profile. Migrate the workflow to OIDC (Workload Identity Federation) so deployments can succeed.
