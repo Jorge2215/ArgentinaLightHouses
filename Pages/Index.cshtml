@@ -16,6 +16,7 @@
         description = lh.Description,
         lat = lh.Latitude,
         lon = lh.Longitude,
+        imageUrl = lh.ImageUrl,
         weather = lh.Weather == null ? null : (object)new {
             icon = lh.Weather.WeatherIcon,
             desc = lh.Weather.WeatherDescription,
@@ -61,8 +62,11 @@
         const weatherHtml = lh.weather
             ? "<div class=\"popup-weather\"><div><span class=\"popup-temp\">" + lh.weather.icon + " " + lh.weather.temp.toFixed(1) + "C</span><br><span class=\"popup-wind\">Wind: " + lh.weather.wind.toFixed(1) + " km/h | " + lh.weather.desc + "</span></div></div>"
             : "<p style=\"color:#cce4f5;font-size:0.85rem\">Weather data could not be loaded. Check API configuration.</p>";
-        const popup = "<div><div class=\"popup-title\">" + lh.name + "</div><div class=\"popup-location\">" + lh.location + "</div><div style=\"color:#e0f0ff;font-size:0.83rem;margin-bottom:4px\">" + lh.description + "</div>" + weatherHtml + "</div>";
-        L.marker([lh.lat, lh.lon], { icon: lighthouseIcon }).addTo(map).bindPopup(popup, { maxWidth: 260 });
+        const imageHtml = lh.imageUrl
+            ? `<img class="popup-lighthouse-img" src="${lh.imageUrl}" alt="${lh.name}" loading="lazy"><p class="popup-attribution">© <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a></p>`
+            : "";
+        const popup = "<div>" + imageHtml + "<div class=\"popup-title\">" + lh.name + "</div><div class=\"popup-location\">" + lh.location + "</div><div style=\"color:#e0f0ff;font-size:0.83rem;margin-bottom:4px\">" + lh.description + "</div>" + weatherHtml + "</div>";
+        L.marker([lh.lat, lh.lon], { icon: lighthouseIcon }).addTo(map).bindPopup(popup, { maxWidth: 300 });
     });
 </script>
 }
