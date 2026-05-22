@@ -27,3 +27,12 @@
 - **Coordinate range note:** Two lighthouses are in Argentine Antarctic Territory (Faro 1ro. de Mayo at -64.3, Faro Esperanza at -63.4). Latitude range in tests uses [-66, -22] to include them correctly. The task spec of -22 to -56 would have produced false failures.
 - **SDK gotcha:** `Microsoft.NET.Sdk.Web` globs `**/*.cs` recursively, so placing the test project as a subdirectory of the main project caused the main project to attempt to compile test files (which reference xunit). Fix: add `<Compile Remove="ArgentinaLightHouses.Tests\**" />` to the main `.csproj`.
 - **Solution file:** Updated `ArgentinaLightHouses.slnx` to include the test project path.
+
+### 2026-05-07T21:02:19-03:00 — ImageUrl feature test suite
+
+- **New test file:** `LighthouseImageUrlTests.cs` — 7 tests covering the `ImageUrl` nullable property added to `Lighthouse.cs` by Gimli.
+- **Model tests (2):** `Lighthouse` defaults `ImageUrl` to `null` when not set; can hold a valid absolute URL string.
+- **Repository tests (3):** At least one lighthouse has a non-null `ImageUrl`; all non-null `ImageUrl` values pass `Uri.TryCreate` + `uri.Scheme == "https"`; no lighthouse has an empty string `ImageUrl`.
+- **Edge case (1):** Accessing `ImageUrl = null` does not throw.
+- **Data shape confirmed:** 29 of 61 lighthouses have Wikimedia Commons URLs (all `https://upload.wikimedia.org/...`); remaining 32 have `null`. No empty strings found.
+- **All 17 tests pass** (11 pre-existing + 6 new image tests) — no bugs found in Gimli's implementation.
