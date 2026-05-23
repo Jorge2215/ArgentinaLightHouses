@@ -1,7 +1,7 @@
 name: Build, Test & Deploy to Azure
 
 env:
-  AZURE_WEBAPP_NAME: lighthouses-app   # ← Replace with your Azure App Service name
+  AZURE_WEBAPP_NAME: ArgentinaLightHouses   # ← Replace with your Azure App Service name
   DOTNET_VERSION: '10.0.x'
   AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}

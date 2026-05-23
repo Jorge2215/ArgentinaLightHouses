@@ -1,0 +1,1726 @@
+{
+  "version": "1.0.0",
+  "producer": ".NET AppCAT CLI",
+  "metadata": {
+    "analysisStartTime": "2026-05-23T02:31:41.2932796Z",
+    "analysisEndTime": "2026-05-23T02:31:45.2846325Z",
+    "privacyMode": "Protected",
+    "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2271074",
+    "targetIds": [
+      "AppService.Windows",
+      "AppService.Linux",
+      "AKS.Linux",
+      "AKS.Windows",
+      "ACA",
+      "AppServiceContainer.Linux",
+      "AppServiceContainer.Windows",
+      "AppServiceManagedInstance.Windows"
+    ],
+    "targetDisplayNames": [
+      "Azure App Service",
+      "Azure Kubernetes Service",
+      "Azure Container Apps",
+      "Azure App Service Container",
+      "Azure App Service Managed Instance"
+    ],
+    "os": [
+      "windows",
+      "linux"
+    ]
+  },
+  "summary": {
+    "totalProjects": 3,
+    "totalIssues": 5,
+    "totalIncidents": 35,
+    "totalEffort": 45,
+    "charts": {
+      "severity": {
+        "mandatory": 0,
+        "optional": 2,
+        "potential": 33,
+        "information": 0
+      },
+      "category": {
+        "Scale": 1,
+        "Local": 31,
+        "HTTP": 2,
+        "Dockerfile": 1
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "ArgentinaLightHouses.csproj",
+      "issues": 3,
+      "storyPoints": 39,
+      "properties": {
+        "appName": "ArgentinaLightHouses",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ]
+      },
+      "incidents": [
+        {
+          "ruleId": "Scale.0001",
+          "incidentId": "51f6267b-ecda-4104-9021-830a52ed894b",
+          "location": "ArgentinaLightHouses.csproj",
+          "locationKind": "File",
+          "snippet": "Found 35 files matching the rule:\r\n\r\nwwwroot\\css\\site.css\r\nwwwroot\\favicon.ico\r\nwwwroot\\js\\site.js\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css\r\nwwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css\r\nwwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js\r\nwwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js\r\nwwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js\r\nwwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js\r\nwwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js\r\nwwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js\r\nwwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.js\r\nwwwroot\\lib\\jquery-validation-unobtrusive\\dist\\jquery.validate.unobtrusive.min.js\r\nwwwroot\\lib\\jquery-validation\\dist\\additional-methods.js\r\nwwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js\r\nwwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js\r\nwwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js\r\nwwwroot\\lib\\jquery\\dist\\jquery.js\r\nwwwroot\\lib\\jquery\\dist\\jquery.min.js\r\nwwwroot\\lib\\jquery\\dist\\jquery.slim.js\r\nwwwroot\\lib\\jquery\\dist\\jquery.slim.min.js\r\n",
+          "targets": {
+            "AppService.Windows": {
+              "effort": 3,
+              "severity": "optional"
+            },
+            "AppService.Linux": {
+              "effort": 3,
+              "severity": "optional"
+            },
+            "AKS.Linux": {
+              "effort": 3,
+              "severity": "optional"
+            },
+            "AKS.Windows": {
+              "effort": 3,
+              "severity": "optional"
+            },
+            "ACA": {
+              "effort": 3,
+              "severity": "optional"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 3,
+              "severity": "optional"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 3,
+              "severity": "optional"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 3,
+              "severity": "optional"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "bca0e095-66f2-4d20-bed8-24c91d26dcfd",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 45,
+          "column": 376,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "08020782-dae1-46cc-b658-b00e71322530",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 9,
+          "column": 219,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "13450170-d53e-421c-8df8-db5f5eecb8fa",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 22,
+          "column": 353,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "7445108f-7b27-42f8-88ec-45551f1fb65e",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 21,
+          "column": 245,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "7dde63e1-ede5-43e9-94e1-8ab45819602e",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 46,
+          "column": 365,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "bc634a46-92ce-4f1a-b2a9-8eedb02f6a9d",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 25,
+          "column": 227,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "efbfecf8-94ef-43bc-b49b-f0909ff3c35e",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 62,
+          "column": 315,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "2019a8b8-947f-41bd-b04f-e947f636fe31",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 53,
+          "column": 229,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "9982de8f-8615-48d4-85aa-7d5b3d34b49d",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 42,
+          "column": 242,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "61eb7474-85f8-4cd8-bc43-6b32d6f0d080",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 44,
+          "column": 378,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "a38cdc83-9866-4b33-b49b-b76cb0e47668",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 30,
+          "column": 207,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "b783b0f8-8f7a-426d-853d-3acdcbb95199",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 55,
+          "column": 255,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "9961180d-5899-4d96-8270-47292cd9c32c",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 33,
+          "column": 247,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "4e6a1c7c-ee84-4136-8065-c999b9b679cc",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 52,
+          "column": 185,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "f96231e9-ed19-4e91-a3d2-4a9d69cd097a",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 27,
+          "column": 348,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "fe8eafa2-6ff8-4be9-babd-8ecc427dab64",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 36,
+          "column": 233,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "557f7489-1078-4626-b9a3-ea26cb582264",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 15,
+          "column": 221,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "7ad50490-8b1b-4039-a6f8-5b242b728293",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 47,
+          "column": 260,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "e1430a2b-5a65-4927-b846-2d8482a2447b",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 64,
+          "column": 242,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "7aa08dd1-31c2-4570-9f16-0cfbdd6e5a90",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 54,
+          "column": 218,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "bdee5769-3a59-4976-aa98-02ac842d5081",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 66,
+          "column": 205,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "aea2f223-1422-4111-b9f6-78c8822fa48d",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 49,
+          "column": 301,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "6f8efebb-1bf4-487f-bc89-94ed4f0c9491",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 60,
+          "column": 227,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "b2d1904b-a65a-47ad-abb6-821a94fd0582",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 23,
+          "column": 206,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "1193fa98-8b84-474e-891d-c4ac33f2f249",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 16,
+          "column": 229,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "5f56e3d7-86ad-4975-9af0-493ec3c0ae96",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 13,
+          "column": 247,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "c7cd7745-0dc4-479f-98d6-90c3c55ba4bf",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 63,
+          "column": 233,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "1e278259-5178-4b9c-87bc-d5cd315fbc5e",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 51,
+          "column": 357,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "00d90ba9-2343-40b0-923e-2933a7bb6249",
+          "location": "Data\\LighthouseRepository.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 8,
+          "column": 218,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "HTTP.0001",
+          "incidentId": "713dd981-5c4b-4f0d-95bd-2eea4ccbefab",
+          "location": "Services\\WeatherService.cs",
+          "locationKind": "File",
+          "snippet": "System.Net.Http.HttpClient",
+          "line": 12,
+          "column": 21,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 3,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "HTTP.0001",
+          "incidentId": "62cd4c36-5aa4-4726-bf84-77312ae8d4e8",
+          "location": "Services\\WeatherService.cs",
+          "locationKind": "File",
+          "snippet": "System.Net.Http.HttpClient",
+          "line": 14,
+          "column": 26,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 3,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 3,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        },
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "09bf07f6-719f-450d-8d49-46e483bd5a3e",
+          "location": "Services\\WeatherService.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 25,
+          "column": 16,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        }
+      ]
+    },
+    {
+      "path": "ArgentinaLightHouses.Tests\\ArgentinaLightHouses.Tests.csproj",
+      "issues": 1,
+      "storyPoints": 1,
+      "properties": {
+        "appName": "ArgentinaLightHouses.Tests",
+        "frameworks": [
+          "net10.0"
+        ],
+        "languages": [
+          "C#"
+        ],
+        "tools": [
+          "MSBuild"
+        ]
+      },
+      "incidents": [
+        {
+          "ruleId": "Local.0006",
+          "incidentId": "d5fa72ce-d602-4c05-b7eb-b8e80522d292",
+          "location": "ArgentinaLightHouses.Tests\\LighthouseImageUrlTests.cs",
+          "locationKind": "File",
+          "snippet": "https://",
+          "line": 21,
+          "column": 27,
+          "targets": {
+            "AppService.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppService.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AKS.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "ACA": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 1,
+              "severity": "potential"
+            }
+          },
+          "labels": []
+        }
+      ]
+    },
+    {
+      "path": ".",
+      "issues": 1,
+      "storyPoints": 5,
+      "properties": {
+        "appName": "",
+        "frameworks": [],
+        "languages": [
+          ""
+        ],
+        "tools": [
+          "MSBuild"
+        ]
+      },
+      "incidents": [
+        {
+          "ruleId": "Dockerfile.0101",
+          "incidentId": "73a2a0fc-49ef-49c5-acd6-fa1b91eacb63",
+          "location": ".",
+          "locationKind": "file",
+          "message": "File(s) missing",
+          "snippet": "",
+          "targets": {
+            "AppService.Windows": {
+              "effort": 5,
+              "severity": "optional"
+            },
+            "AppService.Linux": {
+              "effort": 5,
+              "severity": "optional"
+            },
+            "AKS.Linux": {
+              "effort": 5,
+              "severity": "optional"
+            },
+            "AKS.Windows": {
+              "effort": 5,
+              "severity": "optional"
+            },
+            "ACA": {
+              "effort": 5,
+              "severity": "optional"
+            },
+            "AppServiceContainer.Linux": {
+              "effort": 5,
+              "severity": "optional"
+            },
+            "AppServiceContainer.Windows": {
+              "effort": 5,
+              "severity": "optional"
+            },
+            "AppServiceManagedInstance.Windows": {
+              "effort": 5,
+              "severity": "optional"
+            }
+          },
+          "labels": []
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "Scale.0001": {
+      "id": "Scale.0001",
+      "description": "Static content detected.\n\nYour current approach of serving static content directly might lead to increased costs, performance issues, maintenance challenges (requiring application redeployment for content changes), and security risks.\n\nConsider moving static content to Azure Blob Storage and adding Azure CDN.",
+      "title": "Static content detected",
+      "severity": "optional",
+      "effort": 3,
+      "links": [
+        {
+          "title": "Azure Blob Storage",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2250574"
+        },
+        {
+          "title": "Azure CDN",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2250392"
+        }
+      ],
+      "labels": []
+    },
+    "Local.0006": {
+      "id": "Local.0006",
+      "description": "Your application has hardcoded URLs that might correspond to services that are not accessible on Azure.\n\nReview and ensure that the application is attempting to access URLs that would be available from Azure. You might need to migrate those services to Azure too, this way you will get the benefit of lower latency in the cloud.\n\nIf your application needs to depend on services that run on-premises, you can connect your Azure and local networks with ExpressRoute, Hybrid Connections, or VPN solutions.",
+      "title": "Hardcoded URLs detected",
+      "severity": "potential",
+      "effort": 1,
+      "links": [
+        {
+          "title": "ExpressRoute",
+          "url": "https://go.microsoft.com/fwlink/?LinkID=2250577"
+        },
+        {
+          "title": "Hybrid Connections",
+          "url": "https://go.microsoft.com/fwlink/?LinkID=2242588"
+        },
+        {
+          "title": "Connect an on-prem network",
+          "url": "https://go.microsoft.com/fwlink/?LinkID=2242591"
+        }
+      ],
+      "labels": []
+    },
+    "HTTP.0001": {
+      "id": "HTTP.0001",
+      "description": "Your application is trying to reach external resources via HTTP protocol.\n\nFor Managed Instance on App Service, secure connectivity to internal/on-prem HTTP services is managed via plan-level VNet integration and private endpoints. Keep inbound traffic restricted to 80/443; capture any required HTTP config in install scripts. Use Bastion JIT RDP only for diagnostics\u2014persist all changes via install scripts. Outbound traffic does not impose similar restrictions.\n\nWhile if targeting other Azure compute services, ensure the resources it is trying to reach are accessible from the Azure environment. If those HTTP requests are sent to internal services or services hosted on-prem, you probably will need to migrate those services to Azure as well.\n\nAlso, keep in mind that Azure App Service supports port 80 for HTTP and port 443 for HTTPS traffic. If you are using any other ports, you need to update them before moving to Azure.",
+      "title": "Access to external resources via HTTP is detected",
+      "severity": "potential",
+      "effort": 3,
+      "links": [
+        {
+          "title": "[Managed Instance] Bastion JIT RDP",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2346953"
+        },
+        {
+          "title": "[Managed Instance] Install scripts",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2347059"
+        },
+        {
+          "title": "Azure App Service networking features",
+          "url": "https://go.microsoft.com/fwlink/?LinkID=2243264"
+        }
+      ],
+      "labels": []
+    },
+    "Dockerfile.0101": {
+      "id": "Dockerfile.0101",
+      "description": "Ensure Dockerfile exists in the repository",
+      "title": "Dockerfile Missing",
+      "severity": "optional",
+      "effort": 5,
+      "links": [
+        {
+          "title": "docker",
+          "url": "https://docker.com"
+        }
+      ],
+      "labels": [
+        "domain=cloud-readiness",
+        "category=docker-containerization"
+      ]
+    }
+  }
+}
