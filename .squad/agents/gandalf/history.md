@@ -10,6 +10,20 @@
 
 ## Learnings
 
+### 2026-05-07 — Technical documentation overhaul
+
+**Task:** Updated README.md to provide a comprehensive technical overview of the ArgentinaLightHouses web application, reflecting the latest architecture, features (including the new lighthouse photo support), data model, and deployment/testing practices.
+
+**What I found:**
+- The project is a .NET 10 Razor Pages app with a static repository of 61 lighthouses, live weather via Open-Meteo, and curated Wikimedia Commons images.
+- The solution is cleanly structured: Models, Data, Services, Pages, wwwroot, and a separate xUnit test project.
+- The new `ImageUrl` field is present in the model and repository, with tests ensuring URL validity and coverage.
+- CI/CD is handled via GitHub Actions and Azure App Service using OIDC.
+
+**Outcome:**
+- README.md now documents project purpose, tech stack, structure, features, data model, dependencies, local run/test instructions, and recent changes as of 2026-05-07.
+- All information is up to date and reflects current team/architecture decisions.
+
 ### 2026-05-06 — Lighthouse data sourced from hidro.gov.ar
 
 **Task:** Replace 15 placeholder entries in `Data/LighthouseRepository.cs` with real data from the Argentine Hydrography Service (SHN) at https://www.hidro.gov.ar/balizamiento/Faros/FarosArgentinos.asp
