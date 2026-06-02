@@ -58,6 +58,9 @@ jobs:
           name: dotnet-app
           path: ${{ github.workspace }}/publish
 
+      - name: Zip publish output
+        run: cd ${{ github.workspace }}/publish && zip -r ../app.zip .
+
       - name: Azure Login (OIDC)
         uses: azure/login@v2
         with:
@@ -66,7 +69,9 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy to Azure App Service
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          package: ${{ github.workspace }}/publish
+        run: |
+          az webapp deploy \
+            --name ${{ env.AZURE_WEBAPP_NAME }} \
+            --resource-group LightHouses_rg \
+            --src-path ${{ github.workspace }}/app.zip \
+            --type zip
