@@ -67,7 +67,8 @@ jobs:
 
       - name: Deploy to Azure Function App
         run: |
-          az functionapp deployment source config-zip \
+          az functionapp deploy \
             --name ${{ env.FUNCTION_APP_NAME }} \
             --resource-group LightHouses_rg \
-            --src ${{ github.workspace }}/function-app.zip
+            --src-path ${{ github.workspace }}/function-app.zip \
+            --type zip
