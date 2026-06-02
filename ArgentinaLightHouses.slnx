@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="ArgentinaLightHouses.csproj" />
+  <Project Path="ArgentinaLightHouses.Functions/ArgentinaLightHouses.Functions.csproj" />
+  <Project Path="ArgentinaLightHouses.Shared/ArgentinaLightHouses.Shared.csproj" />
   <Project Path="ArgentinaLightHouses.Tests\ArgentinaLightHouses.Tests.csproj" />
 </Solution>

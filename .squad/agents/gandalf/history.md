@@ -86,6 +86,35 @@
 **Files created:**
 - `.squad/decisions/inbox/gandalf-lighthouse-images.md` — full decision with work item breakdown
 
+### 2026-06-02 — Azure Function architecture decomposition (Weather Statistics)
+
+**Task:** PRD received for an Azure Function that records hourly weather stats for all 61 lighthouses to Azure Table Storage.
+
+**Codebase findings:**
+- Solution uses `.slnx` format with 2 projects: web app (net10.0) + tests. No shared library exists.
+- `LighthouseRepository.cs` is a static class in `Data/` returning 61 hardcoded `Lighthouse` objects. The Function needs this same data.
+- `WeatherService` fetches `temperature_2m`, `wind_speed_10m`, `weather_code` from Open-Meteo. The Function needs additional fields: `wind_direction_10m` and `apparent_temperature`.
+- OIDC deployment is already configured in `azure-deploy.yml` with path-filtered triggers and `az webapp deploy`.
+- No Azure Function project exists in the solution yet.
+
+**Key architecture decisions:**
+1. New `ArgentinaLightHouses.Functions/` project inside existing solution (code sharing)
+2. New `ArgentinaLightHouses.Shared/` class library for `Lighthouse` model + `LighthouseRepository`
+3. Target .NET 8 LTS for the Function (safe default; .NET 10 Functions support unconfirmed)
+4. Table Storage: PartitionKey = LighthouseName, RowKey = ISO 8601 UTC timestamp
+5. SemaphoreSlim(5,5) concurrency pattern reused from existing WeatherService
+6. Separate GitHub Actions workflow with OIDC auth and path-scoped triggers
+
+**Open questions flagged:**
+- .NET version confirmation for Function App runtime
+- OIDC federated credential scope (does it cover Function App deployment?)
+- Storage connection string app setting name
+- Timer cron offset preference
+- Data retention policy
+
+**Files created:**
+- `.squad/decisions/inbox/gandalf-azure-function-architecture.md`
+
 ### 2026-05-06 — Switched deployment auth from Publish Profile to OIDC
 
 **Task:** Azure App Service blocks Basic Auth / Publish Profile. Migrate the workflow to OIDC (Workload Identity Federation) so deployments can succeed.
@@ -101,3 +130,17 @@
 **Files changed:**
 - `.github/workflows/azure-deploy.yml` — OIDC workflow replacing Publish Profile
 - `.squad/decisions/inbox/gandalf-oidc-deploy.md` — decision recorded
+
+### 2026-06-02 — Azure Function documentation
+
+**Task:** Wrote technical and architectural documentation for the new Azure Function at `docs/azure-function-architecture.md`.
+
+**Files created:**
+- `docs/azure-function-architecture.md` — technical & architectural docs for LighthouseWeatherCollector
+
+**Key patterns documented:**
+- Timer-triggered collector and hourly cron schedule
+- Table Storage schema and partitioning (PartitionKey = URL-encoded Name, RowKey = ISO 8601 UTC timestamp)
+- Concurrency control via SemaphoreSlim(5,5) and per-lighthouse failure isolation
+- OIDC-based GitHub Actions deployment and necessary Azure AD federated credential steps
+- Data retention guidance (12 months) and recommended cleanup approaches
