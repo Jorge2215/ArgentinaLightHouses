@@ -13,6 +13,7 @@ az account set --subscription $SubscriptionId
 
 # 2. Build and publish the app
 Write-Host "Building and publishing the .NET app..." -ForegroundColor Cyan
+if (Test-Path $PublishFolder) { Remove-Item $PublishFolder -Recurse -Force }
 dotnet publish ArgentinaLightHouses.csproj -c Release -o $PublishFolder
 
 if ($LASTEXITCODE -ne 0) {
