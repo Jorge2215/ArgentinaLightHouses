@@ -10,6 +10,12 @@
     <Compile Remove="ArgentinaLightHouses.Tests\**" />
     <Content Remove="ArgentinaLightHouses.Tests\**" />
     <None Remove="ArgentinaLightHouses.Tests\**" />
+    <Compile Remove="ArgentinaLightHouses.Functions\**" />
+    <Content Remove="ArgentinaLightHouses.Functions\**" />
+    <None Remove="ArgentinaLightHouses.Functions\**" />
+    <Compile Remove="ArgentinaLightHouses.Shared\**" />
+    <Content Remove="ArgentinaLightHouses.Shared\**" />
+    <None Remove="ArgentinaLightHouses.Shared\**" />
   </ItemGroup>
 
   <ItemGroup>

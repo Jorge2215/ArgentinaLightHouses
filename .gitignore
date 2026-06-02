@@ -88,3 +88,6 @@ dist/
 .squad/.scratch/
 # Squad: SubSquad activation file (local to this machine)
 .squad-workstream
+
+# Azure Functions local settings (never commit — contains connection strings)
+**/local.settings.json
