@@ -130,3 +130,17 @@
 **Files changed:**
 - `.github/workflows/azure-deploy.yml` — OIDC workflow replacing Publish Profile
 - `.squad/decisions/inbox/gandalf-oidc-deploy.md` — decision recorded
+
+### 2026-06-02 — Azure Function documentation
+
+**Task:** Wrote technical and architectural documentation for the new Azure Function at `docs/azure-function-architecture.md`.
+
+**Files created:**
+- `docs/azure-function-architecture.md` — technical & architectural docs for LighthouseWeatherCollector
+
+**Key patterns documented:**
+- Timer-triggered collector and hourly cron schedule
+- Table Storage schema and partitioning (PartitionKey = URL-encoded Name, RowKey = ISO 8601 UTC timestamp)
+- Concurrency control via SemaphoreSlim(5,5) and per-lighthouse failure isolation
+- OIDC-based GitHub Actions deployment and necessary Azure AD federated credential steps
+- Data retention guidance (12 months) and recommended cleanup approaches

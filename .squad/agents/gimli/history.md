@@ -69,3 +69,11 @@ Registered via `builder.Services.AddHttpClient<IWeatherService, WeatherService>(
 
 **The fix:**
 Added a `static SemaphoreSlim _concurrencyLimiter = new(5, 5)` to `WeatherService`. Each call acquires the semaphore before the HTTP request and releases it in a `finally` block, capping concurrent Open-Meteo requests to 5. All 11 existing tests continue to pass.
+
+### 2026-06-02T16:34:39-03:00 — Azure Function build
+
+- Created projects: ArgentinaLightHouses.Shared and ArgentinaLightHouses.Functions.
+- Added CI workflow: .github/workflows/azure-function-deploy.yml.
+- Build result: 0 errors.
+- Tests: 17/17 passed (existing 11 + 6 image-related tests).
+

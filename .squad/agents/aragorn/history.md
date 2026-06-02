@@ -36,3 +36,10 @@
 - **Edge case (1):** Accessing `ImageUrl = null` does not throw.
 - **Data shape confirmed:** 29 of 61 lighthouses have Wikimedia Commons URLs (all `https://upload.wikimedia.org/...`); remaining 32 have `null`. No empty strings found.
 - **All 17 tests pass** (11 pre-existing + 6 new image tests) — no bugs found in Gimli's implementation.
+
+### 2026-06-02T16:34:39-03:00 — Update: Azure Function projects added
+
+- New projects added to the solution: ArgentinaLightHouses.Shared and ArgentinaLightHouses.Functions.
+- Build verified with 0 errors; tests remain passing (17/17).
+- Note for Aragorn: tests that reference shared models may need to be updated to reference the shared class library if required by future refactors.
+
