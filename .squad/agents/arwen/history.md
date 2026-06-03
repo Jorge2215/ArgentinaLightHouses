@@ -30,3 +30,9 @@
 - **Source:** `.squad/decisions/inbox/arwen-table-dark-theme.md` (merged into `.squad/decisions/decisions.md`)
 - **Note:** Decision recorded in `.squad/decisions/decisions.md`. The CSS fix aligns with the project's dark nautical theme and documents the pattern to override Bootstrap table defaults.
 
+
+### 2026-06-03T11:20:48-03:00 — Issue #21 date range filter delivered
+
+- Added **Date From** and **Date To** pickers to Pages/WeatherGrid.cshtml for WeatherGrid filtering.
+- Added .alh-date-input styling in wwwroot/css/site.css to match the ALH dark nautical theme.
+- Delivery status: implementation merged in PR #22, Azure deployment is live, and Jorgito confirmed live verification.
