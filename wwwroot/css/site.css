@@ -221,8 +221,14 @@ html, body {
 
 .alh-table {
     color: var(--alh-white);
+    background-color: var(--alh-dark-blue);
     border-color: var(--alh-light-blue);
     font-size: 0.88rem;
+}
+
+.table-responsive {
+    background-color: var(--alh-dark-blue);
+    border-radius: 8px;
 }
 
 .alh-table thead th {
@@ -243,16 +249,29 @@ html, body {
 }
 
 .alh-table tbody tr {
-    background: transparent;
+    background-color: var(--alh-dark-blue);
     border-color: rgba(74,144,196,0.2);
     transition: background 0.1s;
 }
 
+.alh-table tbody tr:nth-child(even) {
+    background-color: rgba(26,58,92,0.5);
+}
+
+.alh-table tbody tr:nth-child(even) td {
+    background-color: rgba(26,58,92,0.5);
+}
+
 .alh-table tbody tr:hover {
-    background: rgba(74,144,196,0.12);
+    background: rgba(74,144,196,0.18);
+}
+
+.alh-table tbody tr:hover td {
+    background: rgba(74,144,196,0.18);
 }
 
 .alh-table tbody td {
+    background-color: var(--alh-dark-blue);
     border-color: rgba(74,144,196,0.2);
     color: var(--alh-pale-blue);
     vertical-align: middle;
