@@ -12,6 +12,8 @@ How to decide who handles what.
 | Backend / C# / services | Gimli | Models, repositories, services, page models, DI, Program.cs |
 | Frontend / UI / markup | Legolas | Razor Pages views (.cshtml), CSS, wwwroot, layout, accessibility |
 | Testing | Aragorn | Write tests, find edge cases, integration tests, coverage |
+| UI / JavaScript / client-side bugs | Arwen | JS errors, browser issues, Razor-to-JS serialization, client-side interactivity |
+| DevOps / CI-CD / Azure / git | Faramir | GitHub Actions workflows, Azure deployments, static assets, git hygiene |
 | Session logging | Scribe | Automatic — never needs routing |
 | Work queue / backlog | Ralph | Issue monitoring, PR tracking, board status |
 
@@ -24,6 +26,8 @@ How to decide who handles what.
 | `squad:gimli` | Pick up issue and complete the work | Gimli |
 | `squad:legolas` | Pick up issue and complete the work | Legolas |
 | `squad:aragorn` | Pick up issue and complete the work | Aragorn |
+| `squad:arwen` | Pick up issue and complete the work | Arwen |
+| `squad:faramir` | Pick up issue and complete the work | Faramir |
 
 ### How Issue Assignment Works
 
