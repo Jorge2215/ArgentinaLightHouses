@@ -209,3 +209,132 @@ html, body {
     color: var(--alh-white);
 }
 
+/* -- Weather Grid page -- */
+.alh-lighthouse-hero {
+    opacity: 0.85;
+    flex-shrink: 0;
+}
+
+.alh-lighthouse-svg {
+    filter: drop-shadow(0 2px 8px rgba(74,144,196,0.4));
+}
+
+.alh-table {
+    color: var(--alh-white);
+    border-color: var(--alh-light-blue);
+    font-size: 0.88rem;
+}
+
+.alh-table thead th {
+    background: var(--alh-mid-blue);
+    color: var(--alh-accent);
+    border-color: var(--alh-light-blue);
+    white-space: nowrap;
+}
+
+.alh-table thead th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.alh-table thead th.sortable:hover {
+    color: var(--alh-white);
+    background: var(--alh-light-blue);
+}
+
+.alh-table tbody tr {
+    background: transparent;
+    border-color: rgba(74,144,196,0.2);
+    transition: background 0.1s;
+}
+
+.alh-table tbody tr:hover {
+    background: rgba(74,144,196,0.12);
+}
+
+.alh-table tbody td {
+    border-color: rgba(74,144,196,0.2);
+    color: var(--alh-pale-blue);
+    vertical-align: middle;
+}
+
+.alh-table tbody td:first-child {
+    color: var(--alh-white);
+    font-weight: 500;
+}
+
+.alh-temp-cold {
+    color: #7ec8e3 !important;
+}
+
+.alh-temp-extreme {
+    color: #a8d8ff !important;
+    font-weight: 700;
+}
+
+.alh-temp-hot {
+    color: #FFE066 !important;
+    font-weight: 700;
+}
+
+.alh-grid-controls {
+    background: var(--alh-mid-blue);
+    border: 1px solid var(--alh-light-blue);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+}
+
+.alh-control-label {
+    color: var(--alh-pale-blue);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.alh-select {
+    background-color: var(--alh-dark-blue);
+    color: var(--alh-white);
+    border-color: var(--alh-light-blue);
+    min-width: 200px;
+}
+
+.alh-select:focus {
+    border-color: var(--alh-accent);
+    box-shadow: 0 0 0 0.2rem rgba(126,200,227,0.25);
+    background-color: var(--alh-dark-blue);
+    color: var(--alh-white);
+}
+
+.alh-btn-secondary {
+    background: transparent;
+    border: 1px solid var(--alh-light-blue);
+    color: var(--alh-pale-blue);
+    font-size: 0.85rem;
+}
+
+.alh-btn-secondary:hover {
+    background: var(--alh-mid-blue);
+    color: var(--alh-white);
+    border-color: var(--alh-accent);
+}
+
+.alh-btn-secondary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.alh-pagination {
+    color: var(--alh-pale-blue);
+    font-size: 0.88rem;
+}
+
+.alh-pale-text {
+    color: var(--alh-pale-blue);
+}
+
+.alh-alert-warning {
+    background: rgba(26, 58, 92, 0.9);
+    border: 1px solid var(--alh-light-blue);
+    color: var(--alh-pale-blue);
+    border-radius: 8px;
+}
+

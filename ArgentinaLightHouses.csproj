@@ -22,4 +22,8 @@
     <None Include=".github\workflows\azure-deploy.yml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Azure.Data.Tables" Version="12.11.0" />
+  </ItemGroup>
+
 </Project>

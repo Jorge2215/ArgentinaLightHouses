@@ -1,0 +1,199 @@
+@page
+@model ArgentinaLightHouses.Pages.WeatherGridModel
+@{
+    ViewData["Title"] = "Weather Grid";
+}
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+        <h1 class="alh-page-title">Argentina Lighthouses Weather</h1>
+        <p class="alh-page-subtitle" id="record-count">Loading...</p>
+    </div>
+    <div class="alh-lighthouse-hero">
+        <svg xmlns="http://www.w3.org/2000/svg" width="72" height="96" viewBox="0 0 36 48" class="alh-lighthouse-svg" aria-hidden="true" focusable="false">
+            <polygon points="18,10 36,0 36,4 18,13" fill="#FFE066" opacity="0.7"/>
+            <polygon points="18,10 0,0 0,4 18,13"  fill="#FFE066" opacity="0.7"/>
+            <rect x="12" y="5" width="12" height="7" rx="2" fill="#1a3a5c" stroke="#4a90c4" stroke-width="1"/>
+            <rect x="13" y="6" width="10" height="5" rx="1" fill="#FFE066"/>
+            <polygon points="11,5 18,1 25,5" fill="#c0392b"/>
+            <rect x="13" y="12" width="10" height="22" fill="white" stroke="#4a90c4" stroke-width="0.8"/>
+            <rect x="13" y="15" width="10" height="4" fill="#c0392b"/>
+            <rect x="13" y="23" width="10" height="4" fill="#c0392b"/>
+            <rect x="13" y="31" width="10" height="3" fill="#c0392b"/>
+            <rect x="11" y="11" width="14" height="2" rx="1" fill="#1a3a5c" stroke="#4a90c4" stroke-width="0.8"/>
+            <rect x="10" y="34" width="16" height="4" rx="1" fill="#1a3a5c" stroke="#4a90c4" stroke-width="0.8"/>
+            <rect x="16" y="29" width="4" height="5" rx="1" fill="#1a3a5c"/>
+            <path d="M4,42 Q9,39 14,42 Q19,45 24,42 Q29,39 34,42" stroke="#4a90c4" stroke-width="1.5" fill="none"/>
+            <path d="M2,45 Q8,42 14,45 Q20,48 26,45 Q30,42 35,45" stroke="#7ec8e3" stroke-width="1.2" fill="none" opacity="0.7"/>
+        </svg>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alh-alert-warning" role="alert">@Model.ErrorMessage</div>
+}
+
+<div class="alh-grid-controls mb-3">
+    <div class="d-flex flex-wrap gap-3 align-items-center">
+        <label for="filter-name" class="alh-control-label">Filter by Lighthouse:</label>
+        <select id="filter-name" class="alh-select form-select form-select-sm" style="width:auto">
+            <option value="">All Lighthouses</option>
+        </select>
+        <button id="btn-clear" class="btn btn-sm alh-btn-secondary">Clear Filter</button>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table alh-table" id="weather-table" aria-label="Weather records">
+        <thead>
+            <tr>
+                <th class="sortable" data-col="name" scope="col" tabindex="0" role="columnheader" aria-sort="none">Name <span class="sort-indicator" aria-hidden="true"></span></th>
+                <th class="sortable" data-col="date" scope="col" tabindex="0" role="columnheader" aria-sort="descending">Date <span class="sort-indicator" aria-hidden="true"></span></th>
+                <th class="sortable" data-col="time" scope="col" tabindex="0" role="columnheader" aria-sort="none">Time <span class="sort-indicator" aria-hidden="true"></span></th>
+                <th class="sortable" data-col="temperatureCelsius" scope="col" tabindex="0" role="columnheader" aria-sort="none">Temp (°C) <span class="sort-indicator" aria-hidden="true"></span></th>
+                <th class="sortable" data-col="windSpeedKmh" scope="col" tabindex="0" role="columnheader" aria-sort="none">Wind (km/h) <span class="sort-indicator" aria-hidden="true"></span></th>
+                <th class="sortable" data-col="windDirectionDegrees" scope="col" tabindex="0" role="columnheader" aria-sort="none">Dir (°) <span class="sort-indicator" aria-hidden="true"></span></th>
+                <th class="sortable" data-col="windchillCelsius" scope="col" tabindex="0" role="columnheader" aria-sort="none">Windchill (°C) <span class="sort-indicator" aria-hidden="true"></span></th>
+            </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+</div>
+
+<div class="alh-pagination d-flex align-items-center gap-3 mt-3" id="pagination-controls" aria-label="Pagination">
+    <button id="btn-prev" class="btn btn-sm alh-btn-secondary" aria-label="Previous page">← Prev</button>
+    <span id="page-info" class="alh-pale-text" aria-live="polite"></span>
+    <button id="btn-next" class="btn btn-sm alh-btn-secondary" aria-label="Next page">Next →</button>
+</div>
+
+@section Scripts {
+<script>
+    const allRecords = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Records));
+
+    let filtered = [...allRecords];
+    let sortCol = 'date';
+    let sortDir = 'desc';
+    let currentPage = 1;
+    const pageSize = 20;
+
+    // Populate name filter dropdown
+    const names = [...new Set(allRecords.map(r => r.name))].sort();
+    const sel = document.getElementById('filter-name');
+    names.forEach(n => {
+        const opt = document.createElement('option');
+        opt.value = n; opt.textContent = n;
+        sel.appendChild(opt);
+    });
+
+    sel.addEventListener('change', () => { currentPage = 1; applyFilter(); render(); });
+    document.getElementById('btn-clear').addEventListener('click', () => {
+        sel.value = ''; currentPage = 1; applyFilter(); render();
+    });
+
+    function applyFilter() {
+        const name = sel.value;
+        filtered = name ? allRecords.filter(r => r.name === name) : [...allRecords];
+        applySort();
+    }
+
+    // Sort — keyboard-accessible via tabindex + Enter/Space
+    document.querySelectorAll('.sortable').forEach(th => {
+        th.addEventListener('click', handleSort);
+        th.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSort.call(th); }
+        });
+    });
+
+    function handleSort() {
+        const col = this.dataset.col;
+        if (sortCol === col) sortDir = sortDir === 'asc' ? 'desc' : 'asc';
+        else { sortCol = col; sortDir = 'asc'; }
+        applySort();
+        updateSortIndicators();
+        currentPage = 1;
+        renderTable();
+    }
+
+    function applySort() {
+        filtered.sort((a, b) => {
+            let av = a[sortCol], bv = b[sortCol];
+            if (typeof av === 'number') return sortDir === 'asc' ? av - bv : bv - av;
+            return sortDir === 'asc'
+                ? String(av).localeCompare(String(bv))
+                : String(bv).localeCompare(String(av));
+        });
+    }
+
+    function updateSortIndicators() {
+        document.querySelectorAll('.sortable').forEach(th => {
+            const ind = th.querySelector('.sort-indicator');
+            if (th.dataset.col === sortCol) {
+                ind.textContent = sortDir === 'asc' ? ' ▲' : ' ▼';
+                th.setAttribute('aria-sort', sortDir === 'asc' ? 'ascending' : 'descending');
+            } else {
+                ind.textContent = '';
+                th.setAttribute('aria-sort', 'none');
+            }
+        });
+    }
+
+    document.getElementById('btn-prev').addEventListener('click', () => {
+        if (currentPage > 1) { currentPage--; renderTable(); }
+    });
+    document.getElementById('btn-next').addEventListener('click', () => {
+        if (currentPage < Math.ceil(filtered.length / pageSize)) { currentPage++; renderTable(); }
+    });
+
+    function renderTable() {
+        const tbody = document.getElementById('table-body');
+        const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+        const start = (currentPage - 1) * pageSize;
+        const page = filtered.slice(start, start + pageSize);
+
+        if (allRecords.length === 0 && !document.querySelector('.alh-alert-warning')) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center" style="color:var(--alh-pale-blue);padding:2rem">No weather records found for the last 24 hours.</td></tr>';
+        } else if (page.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" class="text-center" style="color:var(--alh-pale-blue);padding:2rem">No records match the current filter.</td></tr>';
+        } else {
+            tbody.innerHTML = page.map(r => `
+                <tr>
+                    <td>${escHtml(r.name)}</td>
+                    <td>${escHtml(r.date)}</td>
+                    <td>${escHtml(r.time)}</td>
+                    <td class="${tempClass(r.temperatureCelsius)}">${r.temperatureCelsius.toFixed(1)}</td>
+                    <td>${r.windSpeedKmh.toFixed(1)}</td>
+                    <td>${r.windDirectionDegrees.toFixed(0)}</td>
+                    <td class="${tempClass(r.windchillCelsius)}">${r.windchillCelsius.toFixed(1)}</td>
+                </tr>`).join('');
+        }
+
+        document.getElementById('page-info').textContent =
+            `Page ${currentPage} of ${totalPages} (${filtered.length} records)`;
+        document.getElementById('btn-prev').disabled = currentPage <= 1;
+        document.getElementById('btn-next').disabled = currentPage >= totalPages;
+        document.getElementById('record-count').textContent =
+            `Historical weather records from the last 24 hours — ${allRecords.length} records`;
+        updateSortIndicators();
+    }
+
+    function escHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function tempClass(t) {
+        if (t <= -10) return 'alh-temp-extreme';
+        if (t <= 0)   return 'alh-temp-cold';
+        if (t >= 30)  return 'alh-temp-hot';
+        return '';
+    }
+
+    function render() { applySort(); renderTable(); }
+
+    applyFilter();
+    render();
+</script>
+}
