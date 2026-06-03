@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
 builder.Services.AddHttpClient<IWeatherService, WeatherService>();
+builder.Services.AddSingleton<IWeatherGridService, WeatherGridService>();
 
 var app = builder.Build();
 
