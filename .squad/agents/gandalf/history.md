@@ -10,6 +10,21 @@
 
 ## Learnings
 
+### 2026-06-02 — WeatherGrid feature architecture decisions
+
+**Task:** Made and recorded architecture decisions for the new Weather Data Grid page.
+
+**Key decisions:**
+- `Azure.Data.Tables` NuGet added to main web app project (v12.x, same as Functions project)
+- Connection string key: `AzureStorageConnection` (never `AzureWebJobsStorage` — that is Functions-runtime-only)
+- Data fetch window: last 24 hours (~1,464 rows max — safe for client-side rendering)
+- Client-side grid: vanilla JS only, consistent with project's minimal-dependency philosophy
+- Graceful degradation: missing/empty connection string → empty list + informative UI message (mirrors Open-Meteo failure pattern)
+- Lighthouse image: inline SVG reused from map page — no external dependency
+
+**Files created:**
+- `.squad/decisions/inbox/gandalf-weathergrid-architecture.md`
+
 ### 2026-05-07 — Technical documentation overhaul
 
 **Task:** Updated README.md to provide a comprehensive technical overview of the ArgentinaLightHouses web application, reflecting the latest architecture, features (including the new lighthouse photo support), data model, and deployment/testing practices.

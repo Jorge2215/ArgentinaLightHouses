@@ -28,6 +28,20 @@
       "legacy_named": false,
       "status": "active"
     },
+    "ui-js-dev": {
+      "persistent_name": "Arwen",
+      "universe": "The Lord of the Rings",
+      "created_at": "2026-06-02T21:56:11-03:00",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "devops": {
+      "persistent_name": "Faramir",
+      "universe": "The Lord of the Rings",
+      "created_at": "2026-06-02T21:56:11-03:00",
+      "legacy_named": false,
+      "status": "active"
+    },
     "scribe": {
       "persistent_name": "Scribe",
       "universe": "exempt",

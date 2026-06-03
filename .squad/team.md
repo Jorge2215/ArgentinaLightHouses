@@ -16,6 +16,8 @@
 | Gimli | Backend Dev | .squad/agents/gimli/charter.md | active |
 | Legolas | Frontend Dev | .squad/agents/legolas/charter.md | active |
 | Aragorn | Tester | .squad/agents/aragorn/charter.md | active |
+| Arwen | UI / JS Dev | .squad/agents/arwen/charter.md | active |
+| Faramir | DevOps | .squad/agents/faramir/charter.md | active |
 | Scribe | Session Logger | .squad/agents/scribe/charter.md | active |
 | Ralph | Work Monitor | .squad/agents/ralph/charter.md | active |
 
