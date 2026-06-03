@@ -37,6 +37,14 @@
 - **Data shape confirmed:** 29 of 61 lighthouses have Wikimedia Commons URLs (all `https://upload.wikimedia.org/...`); remaining 32 have `null`. No empty strings found.
 - **All 17 tests pass** (11 pre-existing + 6 new image tests) — no bugs found in Gimli's implementation.
 
+### 2026-06-02T21:02:59-03:00 — WeatherGrid test suite
+
+- **New packages:** `Moq 4.20.72` and `Microsoft.Extensions.Logging.Abstractions 10.0.8` added to the test project — now the standard mocking stack.
+- **WeatherGridServiceTests.cs (2 tests):** Covers graceful degradation — null and empty `AzureStorageConnection` config both return empty list. Azure Table Storage happy path is not unit tested (no interface wrapping `TableClient`); emulator-based integration tests are a future concern.
+- **WeatherGridModelTests.cs (3 tests):** `IWeatherGridService` mocked via Moq; `ILogger<WeatherGridModel>` via `NullLogger`. Tests cover: service returns 3 records → Records has 3 items; service returns empty → Records empty, no error; service throws → ErrorMessage non-empty, Records empty.
+- **All 22 tests pass** (17 pre-existing + 5 new WeatherGrid tests). No regressions.
+- **Decision note:** `.squad/decisions/inbox/aragorn-weathergrid-tests.md`
+
 ### 2026-06-02T16:34:39-03:00 — Update: Azure Function projects added
 
 - New projects added to the solution: ArgentinaLightHouses.Shared and ArgentinaLightHouses.Functions.

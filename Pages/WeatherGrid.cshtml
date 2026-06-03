@@ -68,7 +68,7 @@
 
 @section Scripts {
 <script>
-    const allRecords = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Records));
+    const allRecords = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Records, new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase }));
 
     let filtered = [...allRecords];
     let sortCol = 'date';
@@ -160,10 +160,10 @@
                     <td>${escHtml(r.name)}</td>
                     <td>${escHtml(r.date)}</td>
                     <td>${escHtml(r.time)}</td>
-                    <td class="${tempClass(r.temperatureCelsius)}">${r.temperatureCelsius.toFixed(1)}</td>
-                    <td>${r.windSpeedKmh.toFixed(1)}</td>
-                    <td>${r.windDirectionDegrees.toFixed(0)}</td>
-                    <td class="${tempClass(r.windchillCelsius)}">${r.windchillCelsius.toFixed(1)}</td>
+                    <td class="${tempClass(r.temperatureCelsius ?? 0)}">${(r.temperatureCelsius ?? 0).toFixed(1)}</td>
+                    <td>${(r.windSpeedKmh ?? 0).toFixed(1)}</td>
+                    <td>${(r.windDirectionDegrees ?? 0).toFixed(0)}</td>
+                    <td class="${tempClass(r.windchillCelsius ?? 0)}">${(r.windchillCelsius ?? 0).toFixed(1)}</td>
                 </tr>`).join('');
         }
 
