@@ -39,7 +39,11 @@
         <select id="filter-name" class="alh-select form-select form-select-sm" style="width:auto">
             <option value="">All Lighthouses</option>
         </select>
-        <button id="btn-clear" class="btn btn-sm alh-btn-secondary">Clear Filter</button>
+        <label for="filter-date-from" class="alh-control-label">Date From:</label>
+        <input type="date" id="filter-date-from" class="alh-date-input" aria-label="Filter from date" />
+        <label for="filter-date-to" class="alh-control-label">Date To:</label>
+        <input type="date" id="filter-date-to" class="alh-date-input" aria-label="Filter to date" />
+        <button id="btn-clear" class="btn btn-sm alh-btn-secondary">Clear Filters</button>
     </div>
 </div>
 
@@ -86,13 +90,25 @@
     });
 
     sel.addEventListener('change', () => { currentPage = 1; applyFilter(); render(); });
+    document.getElementById('filter-date-from').addEventListener('change', () => { currentPage = 1; applyFilter(); render(); });
+    document.getElementById('filter-date-to').addEventListener('change', () => { currentPage = 1; applyFilter(); render(); });
     document.getElementById('btn-clear').addEventListener('click', () => {
-        sel.value = ''; currentPage = 1; applyFilter(); render();
+        sel.value = '';
+        document.getElementById('filter-date-from').value = '';
+        document.getElementById('filter-date-to').value = '';
+        currentPage = 1; applyFilter(); render();
     });
 
     function applyFilter() {
         const name = sel.value;
-        filtered = name ? allRecords.filter(r => r.name === name) : [...allRecords];
+        const dateFrom = document.getElementById('filter-date-from').value;
+        const dateTo = document.getElementById('filter-date-to').value;
+        filtered = allRecords.filter(r => {
+            if (name && r.name !== name) return false;
+            if (dateFrom && r.date < dateFrom) return false;
+            if (dateTo && r.date > dateTo) return false;
+            return true;
+        });
         applySort();
     }
 

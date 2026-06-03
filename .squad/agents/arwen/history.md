@@ -24,3 +24,9 @@
 - **Null safety:** Added `?? 0` guards before all `.toFixed()` calls in `renderTable()` to handle records with missing numeric values (e.g. incomplete Azure Function writes). `tempClass()` calls also guarded.
 - **Pattern to remember:** When serializing C# models to inline JS via `@Html.Raw(JsonSerializer.Serialize(...))`, always pass `JsonNamingPolicy.CamelCase` unless the JS explicitly uses PascalCase keys.
 - **Decision note:** `.squad/decisions/inbox/arwen-weathergrid-casing-fix.md`
+
+### 2026-06-02T22:12:35-03:00 — Table Dark Theme decision merged
+
+- **Source:** `.squad/decisions/inbox/arwen-table-dark-theme.md` (merged into `.squad/decisions/decisions.md`)
+- **Note:** Decision recorded in `.squad/decisions/decisions.md`. The CSS fix aligns with the project's dark nautical theme and documents the pattern to override Bootstrap table defaults.
+
