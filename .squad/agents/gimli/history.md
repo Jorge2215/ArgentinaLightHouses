@@ -70,6 +70,22 @@ Registered via `builder.Services.AddHttpClient<IWeatherService, WeatherService>(
 **The fix:**
 Added a `static SemaphoreSlim _concurrencyLimiter = new(5, 5)` to `WeatherService`. Each call acquires the semaphore before the HTTP request and releases it in a `finally` block, capping concurrent Open-Meteo requests to 5. All 11 existing tests continue to pass.
 
+### 2026-06-02T21:11:52-03:00 — WeatherGrid backend implementation
+
+**Task:** Implemented the full backend for the new Weather Data Grid page, reading historical lighthouse weather from Azure Table Storage.
+
+**Files created:** `Models/WeatherRecord.cs`, `Services/IWeatherGridService.cs`, `Services/WeatherGridService.cs`, `Pages/WeatherGrid.cshtml.cs`.  
+**Files modified:** `Program.cs` (singleton registration), `appsettings.json` (empty `AzureStorageConnection` key), `ArgentinaLightHouses.csproj` (added `Azure.Data.Tables` v12.11.0).
+
+**Key decisions:**
+- `TableClient.QueryAsync<TableEntity>` with `RowKey ge '{cutoffKey}'` for server-side time-range filtering.
+- `AzureStorageConnection` as configuration key (never `AzureWebJobsStorage`).
+- 24-hour default query window (~1,464 rows max — safe for client-side rendering).
+- Graceful degradation: null/empty connection string → log warning + return empty list; mirrors Open-Meteo swallow-and-log pattern.
+- Registered as `AddSingleton` (Azure SDK manages its own HTTP connections).
+
+**Build:** `dotnet build` — 0 errors.
+
 ### 2026-06-02T16:34:39-03:00 — Azure Function build
 
 - Created projects: ArgentinaLightHouses.Shared and ArgentinaLightHouses.Functions.

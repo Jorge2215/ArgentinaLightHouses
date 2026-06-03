@@ -21,6 +21,19 @@
 - **Accessibility:** `<img>` carries `alt="${lh.name}"` and `loading="lazy"`.
 - **Backward compat:** Existing lighthouses without `imageUrl` render identically to before — no placeholder, no gap.
 
+### 2026-06-02 — WeatherGrid frontend implementation
+
+**Task:** Built the complete frontend for the new Weather Data Grid page.
+
+**Files created:** `Pages/WeatherGrid.cshtml`.  
+**Files modified:** `Pages/Shared/_Layout.cshtml` (added "📊 Weather" nav link), `wwwroot/css/site.css` (appended styles under `/* -- Weather Grid page -- */`).
+
+**CSS approach:** All class names follow `alh-*` prefix convention. No new CSS variables — uses existing `:root` palette only. Key additions: `.alh-table` dark-nautical table theming, temperature semantic classes (`.alh-temp-cold`, `.alh-temp-extreme`, `.alh-temp-hot`), `.alh-grid-controls` filter row, `.alh-lighthouse-hero` hero icon, `.alh-alert-warning` error alert.
+
+**JS approach:** Vanilla JS only — no external grid libraries. Three module-level state vars. Pipeline: `applyFilter()` → `applySort()` → `renderTable()`. Data flow: `@Html.Raw(JsonSerializer.Serialize(Model.Records))` — same established pattern as `Index.cshtml`.
+
+**Accessibility:** Column headers have `tabindex="0"`, `role="columnheader"`, `aria-sort` kept in sync. Keyboard sort via Enter/Space. SVG hero `aria-hidden="true" focusable="false"`. Pagination uses `aria-label` and `aria-live="polite"`.
+
 ### 2026-05-06 — Map & Weather UI architecture
 
 - **Map page (`Index.cshtml`):** Uses Leaflet (`L.map`). All lighthouse data — including weather — is serialized server-side into a `const lighthouses = [...]` JS variable at page render time via `@Html.Raw(JsonSerializer.Serialize(...))`. There is **no AJAX call on marker click**; data is fully baked into the page.
