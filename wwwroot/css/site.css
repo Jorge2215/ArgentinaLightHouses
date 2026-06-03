@@ -323,6 +323,29 @@ html, body {
     color: var(--alh-white);
 }
 
+.alh-date-input {
+    background-color: var(--alh-dark-blue);
+    color: var(--alh-white);
+    border: 1px solid var(--alh-light-blue);
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    height: calc(1.5em + 0.5rem + 2px);
+}
+
+.alh-date-input:focus {
+    border-color: var(--alh-accent);
+    box-shadow: 0 0 0 0.2rem rgba(126,200,227,0.25);
+    outline: none;
+    background-color: var(--alh-dark-blue);
+    color: var(--alh-white);
+}
+
+.alh-date-input::-webkit-calendar-picker-indicator {
+    filter: invert(0.8) sepia(1) saturate(2) hue-rotate(180deg);
+    cursor: pointer;
+}
+
 .alh-btn-secondary {
     background: transparent;
     border: 1px solid var(--alh-light-blue);
