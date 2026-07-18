@@ -8,9 +8,10 @@ public class IndexModel : PageModel
     private readonly IWeatherService _weatherService;
     public List<Lighthouse> Lighthouses { get; private set; } = [];
     public IndexModel(IWeatherService weatherService) { _weatherService = weatherService; }
+    protected virtual List<Lighthouse> GetLighthouses() => LighthouseRepository.GetAll();
     public async Task OnGetAsync()
     {
-        var lighthouses = LighthouseRepository.GetAll();
+        var lighthouses = GetLighthouses();
         var tasks = lighthouses.Select(async lh => { lh.Weather = await _weatherService.GetWeatherAsync(lh.Latitude, lh.Longitude); return lh; });
         Lighthouses = [.. await Task.WhenAll(tasks)];
     }
