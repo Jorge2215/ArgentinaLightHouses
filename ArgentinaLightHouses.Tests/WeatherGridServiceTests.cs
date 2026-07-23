@@ -15,22 +15,26 @@ public class WeatherGridServiceTests
     }
 
     [Fact]
-    public async Task GetRecentRecordsAsync_WhenConnectionStringIsEmpty_ReturnsEmptyList()
+    public async Task GetRecordsAsync_WhenConnectionStringIsEmpty_ReturnsEmptyList()
     {
         var service = CreateService(string.Empty);
+        var dateFrom = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-7));
+        var dateTo = DateOnly.FromDateTime(DateTime.UtcNow);
 
-        var result = await service.GetRecentRecordsAsync();
+        var result = await service.GetRecordsAsync(dateFrom, dateTo);
 
         Assert.NotNull(result);
         Assert.Empty(result);
     }
 
     [Fact]
-    public async Task GetRecentRecordsAsync_WhenConnectionStringIsNull_ReturnsEmptyList()
+    public async Task GetRecordsAsync_WhenConnectionStringIsNull_ReturnsEmptyList()
     {
         var service = CreateService(null);
+        var dateFrom = DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-7));
+        var dateTo = DateOnly.FromDateTime(DateTime.UtcNow);
 
-        var result = await service.GetRecentRecordsAsync();
+        var result = await service.GetRecordsAsync(dateFrom, dateTo);
 
         Assert.NotNull(result);
         Assert.Empty(result);
