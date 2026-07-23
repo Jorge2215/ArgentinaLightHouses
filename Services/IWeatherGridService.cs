@@ -4,5 +4,5 @@ namespace ArgentinaLightHouses.Services;
 
 public interface IWeatherGridService
 {
-    Task<List<WeatherRecord>> GetRecentRecordsAsync(int hoursBack = 24);
+    Task<List<WeatherRecord>> GetRecordsAsync(DateOnly dateFrom, DateOnly dateTo);
 }

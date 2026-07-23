@@ -14,7 +14,7 @@ public class WeatherGridService : IWeatherGridService
         _logger = logger;
     }
 
-    public async Task<List<WeatherRecord>> GetRecentRecordsAsync(int hoursBack = 24)
+    public async Task<List<WeatherRecord>> GetRecordsAsync(DateOnly dateFrom, DateOnly dateTo)
     {
         var connectionString = _configuration["AzureStorageConnection"];
         if (string.IsNullOrEmpty(connectionString))
@@ -26,8 +26,9 @@ public class WeatherGridService : IWeatherGridService
         try
         {
             var tableClient = new TableClient(connectionString, "LightHousesWeather");
-            var cutoffKey = DateTime.UtcNow.AddHours(-hoursBack).ToString("o");
-            var filter = $"RowKey ge '{cutoffKey}'";
+            var fromKey = dateFrom.ToString("yyyy-MM-dd");
+            var toKey = dateTo.ToString("yyyy-MM-dd");
+            var filter = $"RowKey ge '{fromKey}' and RowKey le '{toKey}T23:59:59Z'";
 
             var records = new List<WeatherRecord>();
 

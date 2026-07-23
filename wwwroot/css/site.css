@@ -346,6 +346,20 @@ html, body {
     cursor: pointer;
 }
 
+.alh-btn-primary {
+    background: var(--alh-accent);
+    border: 1px solid var(--alh-accent);
+    color: var(--alh-dark-blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.alh-btn-primary:hover {
+    background: var(--alh-light-blue);
+    border-color: var(--alh-light-blue);
+    color: var(--alh-white);
+}
+
 .alh-btn-secondary {
     background: transparent;
     border: 1px solid var(--alh-light-blue);
