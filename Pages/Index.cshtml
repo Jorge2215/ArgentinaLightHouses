@@ -7,6 +7,13 @@
     <h1 class="alh-page-title">Map of Argentina Lighthouses</h1>
     <p class="alh-page-subtitle">@Model.Lighthouses.Count lighthouses positioned on the map with live weather from Open-Meteo (Developed by Gandalf and Jorgito)</p>
 </div>
+<div class="alh-grid-controls mb-2 d-flex flex-wrap gap-3 align-items-center">
+    <label for="filter-province" class="alh-control-label">Filter by Province:</label>
+    <select id="filter-province" class="alh-select form-select form-select-sm" style="width:auto">
+        <option value="">All Provinces</option>
+    </select>
+    <span id="filter-count" class="alh-pale-text" style="font-size:0.88rem"></span>
+</div>
 <div id="lighthouse-map"></div>
 @section Scripts {
 <script>
@@ -58,7 +65,12 @@
         popupAnchor: [0, -46]
     });
 
-    lighthouses.forEach(lh => {
+    function getProvince(location) {
+        const parts = location.split(',');
+        return parts[parts.length - 1].trim();
+    }
+
+    const markers = lighthouses.map(lh => {
         const weatherHtml = lh.weather
             ? "<div class=\"popup-weather\"><div><span class=\"popup-temp\">" + lh.weather.icon + " " + lh.weather.temp.toFixed(1) + "C</span><br><span class=\"popup-wind\">Wind: " + lh.weather.wind.toFixed(1) + " km/h | " + lh.weather.desc + "</span></div></div>"
             : "<p style=\"color:#cce4f5;font-size:0.85rem\">Weather data could not be loaded. Check API configuration.</p>";
@@ -66,7 +78,35 @@
             ? `<img class="popup-lighthouse-img" src="${lh.imageUrl}" alt="${lh.name}" loading="lazy"><p class="popup-attribution">© <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a></p>`
             : "";
         const popup = "<div>" + imageHtml + "<div class=\"popup-title\">" + lh.name + "</div><div class=\"popup-location\">" + lh.location + "</div><div style=\"color:#e0f0ff;font-size:0.83rem;margin-bottom:4px\">" + lh.description + "</div>" + weatherHtml + "</div>";
-        L.marker([lh.lat, lh.lon], { icon: lighthouseIcon }).addTo(map).bindPopup(popup, { maxWidth: 300 });
+        return L.marker([lh.lat, lh.lon], { icon: lighthouseIcon }).addTo(map).bindPopup(popup, { maxWidth: 300 });
     });
+
+    // Build province dropdown
+    const provinces = [...new Set(lighthouses.map(lh => getProvince(lh.location)))].sort();
+    const sel = document.getElementById('filter-province');
+    provinces.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p; opt.textContent = p;
+        sel.appendChild(opt);
+    });
+
+    function updateFilter() {
+        const province = sel.value;
+        let count = 0;
+        markers.forEach((marker, i) => {
+            const lhProvince = getProvince(lighthouses[i].location);
+            if (!province || lhProvince === province) {
+                marker.addTo(map);
+                count++;
+            } else {
+                marker.remove();
+            }
+        });
+        document.getElementById('filter-count').textContent =
+            province ? `${count} lighthouse${count !== 1 ? 's' : ''} in ${province}` : `${lighthouses.length} lighthouses`;
+    }
+
+    sel.addEventListener('change', updateFilter);
+    updateFilter();
 </script>
 }
