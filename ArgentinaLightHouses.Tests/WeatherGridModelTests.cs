@@ -27,7 +27,7 @@ public class WeatherGridModelTests
     public async Task OnGetAsync_PopulatesRecords_WhenServiceReturnsData()
     {
         var mockService = new Mock<IWeatherGridService>();
-        mockService.Setup(s => s.GetRecentRecordsAsync(24)).ReturnsAsync(SampleRecords(3));
+        mockService.Setup(s => s.GetRecordsAsync(It.IsAny<DateOnly>(), It.IsAny<DateOnly>())).ReturnsAsync(SampleRecords(3));
         var model = CreateModel(mockService.Object);
 
         await model.OnGetAsync();
@@ -40,7 +40,7 @@ public class WeatherGridModelTests
     public async Task OnGetAsync_SetsEmptyRecords_WhenServiceReturnsEmpty()
     {
         var mockService = new Mock<IWeatherGridService>();
-        mockService.Setup(s => s.GetRecentRecordsAsync(24)).ReturnsAsync(new List<WeatherRecord>());
+        mockService.Setup(s => s.GetRecordsAsync(It.IsAny<DateOnly>(), It.IsAny<DateOnly>())).ReturnsAsync(new List<WeatherRecord>());
         var model = CreateModel(mockService.Object);
 
         await model.OnGetAsync();
@@ -53,7 +53,7 @@ public class WeatherGridModelTests
     public async Task OnGetAsync_SetsErrorMessage_WhenServiceThrows()
     {
         var mockService = new Mock<IWeatherGridService>();
-        mockService.Setup(s => s.GetRecentRecordsAsync(24))
+        mockService.Setup(s => s.GetRecordsAsync(It.IsAny<DateOnly>(), It.IsAny<DateOnly>()))
             .ThrowsAsync(new Exception("Storage unavailable"));
         var model = CreateModel(mockService.Object);
 
