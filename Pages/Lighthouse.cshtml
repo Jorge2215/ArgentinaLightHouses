@@ -1,0 +1,103 @@
+@page "/Lighthouse/{name}"
+@model ArgentinaLightHouses.Pages.LighthouseModel
+@{
+    ViewData["Title"] = Model.LighthouseDetail?.Name ?? "Lighthouse";
+}
+
+@if (Model.LighthouseDetail == null)
+{
+    <p class="alh-page-subtitle">Lighthouse not found.</p>
+}
+else
+{
+    var lh = Model.LighthouseDetail;
+    <div class="mb-3">
+        <a href="/Lighthouses" class="btn btn-sm alh-btn-secondary">← Back to all lighthouses</a>
+    </div>
+    <h1 class="alh-page-title">@lh.Name</h1>
+    <p class="alh-page-subtitle">@lh.Location</p>
+
+    <div class="row g-4">
+        <div class="col-md-5">
+            @if (!string.IsNullOrEmpty(lh.ImageUrl))
+            {
+                <img src="@lh.ImageUrl" alt="@lh.Name" class="img-fluid rounded alh-detail-img" loading="lazy" />
+                <p class="alh-attribution mt-1">© <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener" class="alh-footer-link">Wikimedia Commons</a></p>
+            }
+            else
+            {
+                <div class="alh-no-image d-flex align-items-center justify-content-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="107" viewBox="0 0 36 48" aria-hidden="true">
+                        <polygon points="18,10 36,0 36,4 18,13" fill="#FFE066" opacity="0.7"/>
+                        <polygon points="18,10 0,0 0,4 18,13" fill="#FFE066" opacity="0.7"/>
+                        <rect x="12" y="5" width="12" height="7" rx="2" fill="#1a3a5c" stroke="#4a90c4" stroke-width="1"/>
+                        <rect x="13" y="6" width="10" height="5" rx="1" fill="#FFE066"/>
+                        <polygon points="11,5 18,1 25,5" fill="#c0392b"/>
+                        <rect x="13" y="12" width="10" height="22" fill="white" stroke="#4a90c4" stroke-width="0.8"/>
+                        <rect x="13" y="15" width="10" height="4" fill="#c0392b"/>
+                        <rect x="13" y="23" width="10" height="4" fill="#c0392b"/>
+                        <rect x="13" y="31" width="10" height="3" fill="#c0392b"/>
+                        <rect x="11" y="11" width="14" height="2" rx="1" fill="#1a3a5c" stroke="#4a90c4" stroke-width="0.8"/>
+                        <rect x="10" y="34" width="16" height="4" rx="1" fill="#1a3a5c" stroke="#4a90c4" stroke-width="0.8"/>
+                        <rect x="16" y="29" width="4" height="5" rx="1" fill="#1a3a5c"/>
+                        <path d="M4,42 Q9,39 14,42 Q19,45 24,42 Q29,39 34,42" stroke="#4a90c4" stroke-width="1.5" fill="none"/>
+                        <path d="M2,45 Q8,42 14,45 Q20,48 26,45 Q30,42 35,45" stroke="#7ec8e3" stroke-width="1.2" fill="none" opacity="0.7"/>
+                    </svg>
+                    <p class="alh-pale-text ms-3">No photo available</p>
+                </div>
+            }
+        </div>
+        <div class="col-md-7">
+            <div class="alh-detail-card mb-3">
+                <h5 class="alh-accent-text mb-2">Description</h5>
+                <p style="color:var(--alh-pale-blue)">@lh.Description</p>
+            </div>
+
+            @if (lh.Weather != null)
+            {
+                <div class="alh-detail-card mb-3">
+                    <h5 class="alh-accent-text mb-2">Current Weather</h5>
+                    <div class="d-flex align-items-center gap-3">
+                        <span style="font-size:2.5rem">@lh.Weather.WeatherIcon</span>
+                        <div>
+                            <div class="alh-card temp" style="font-size:1.8rem;font-weight:700">@lh.Weather.TemperatureC.ToString("F1")°C</div>
+                            <div style="color:var(--alh-pale-blue)">@lh.Weather.WeatherDescription</div>
+                            <div style="color:var(--alh-pale-blue);font-size:0.9rem">💨 Wind: @lh.Weather.WindSpeedKmh.ToString("F1") km/h</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="alh-detail-card mb-3">
+                <h5 class="alh-accent-text mb-2">Coordinates</h5>
+                <p style="color:var(--alh-pale-blue);margin:0">
+                    📍 @lh.Latitude.ToString("F4", System.Globalization.CultureInfo.InvariantCulture)° N,
+                    @lh.Longitude.ToString("F4", System.Globalization.CultureInfo.InvariantCulture)° E
+                </p>
+            </div>
+
+            <div id="detail-map" class="alh-detail-map"></div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/Lighthouses" class="alh-footer-link">← Back to all lighthouses</a>
+    </div>
+}
+
+@section Scripts {
+@if (Model.LighthouseDetail != null)
+{
+    <script>
+        const detailMap = L.map('detail-map').setView([@Model.LighthouseDetail.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture), @Model.LighthouseDetail.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(detailMap);
+        L.marker([@Model.LighthouseDetail.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture), @Model.LighthouseDetail.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)])
+            .addTo(detailMap)
+            .bindPopup('@Html.Raw(Model.LighthouseDetail.Name.Replace("'", "\\'"))')
+            .openPopup();
+    </script>
+}
+}
