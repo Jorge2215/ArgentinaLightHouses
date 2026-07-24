@@ -52,6 +52,14 @@
     </div>
 </form>
 
+<div id="chart-container" class="alh-chart-container mb-4" style="display:none">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="alh-control-label" id="chart-title">Temperature & Wind Trends</span>
+        <button id="btn-close-chart" class="btn btn-sm alh-btn-secondary" aria-label="Close chart">✕ Close</button>
+    </div>
+    <canvas id="weather-chart" height="120"></canvas>
+</div>
+
 <div class="table-responsive">
     <table class="table alh-table" id="weather-table" aria-label="Weather records">
         <thead>
@@ -76,6 +84,7 @@
 </div>
 
 @section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
     const allRecords = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Records, new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase }));
 
@@ -212,7 +221,96 @@
         return '';
     }
 
-    function render() { applySort(); renderTable(); }
+    function render() { applySort(); renderTable(); buildChart(); }
+
+    let chartInstance = null;
+
+    function buildChart() {
+        const name = document.getElementById('filter-name').value;
+        const container = document.getElementById('chart-container');
+
+        if (!name) {
+            container.style.display = 'none';
+            if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+            return;
+        }
+
+        const lhRecords = allRecords
+            .filter(r => r.name === name)
+            .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+
+        if (lhRecords.length === 0) {
+            container.style.display = 'none';
+            return;
+        }
+
+        container.style.display = 'block';
+        document.getElementById('chart-title').textContent =
+            `Temperature & Wind Trends — ${name}`;
+
+        const labels = lhRecords.map(r => r.date + ' ' + r.time);
+        const temps = lhRecords.map(r => r.temperatureCelsius);
+        const winds = lhRecords.map(r => r.windSpeedKmh);
+
+        if (chartInstance) chartInstance.destroy();
+
+        chartInstance = new Chart(document.getElementById('weather-chart'), {
+            type: 'line',
+            data: {
+                labels,
+                datasets: [
+                    {
+                        label: 'Temperature (°C)',
+                        data: temps,
+                        borderColor: '#FFE066',
+                        backgroundColor: 'rgba(255,224,102,0.1)',
+                        yAxisID: 'yTemp',
+                        tension: 0.3,
+                        pointRadius: 3
+                    },
+                    {
+                        label: 'Wind Speed (km/h)',
+                        data: winds,
+                        borderColor: '#7ec8e3',
+                        backgroundColor: 'rgba(126,200,227,0.1)',
+                        yAxisID: 'yWind',
+                        tension: 0.3,
+                        pointRadius: 3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { labels: { color: '#cce4f5' } }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#cce4f5', maxTicksLimit: 12, maxRotation: 45 },
+                        grid: { color: 'rgba(74,144,196,0.2)' }
+                    },
+                    yTemp: {
+                        type: 'linear', position: 'left',
+                        title: { display: true, text: '°C', color: '#FFE066' },
+                        ticks: { color: '#FFE066' },
+                        grid: { color: 'rgba(74,144,196,0.2)' }
+                    },
+                    yWind: {
+                        type: 'linear', position: 'right',
+                        title: { display: true, text: 'km/h', color: '#7ec8e3' },
+                        ticks: { color: '#7ec8e3' },
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+    }
+
+    document.getElementById('btn-close-chart').addEventListener('click', () => {
+        document.getElementById('chart-container').style.display = 'none';
+        if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+    });
 
     applyFilter();
     render();

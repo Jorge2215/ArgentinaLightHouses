@@ -394,3 +394,11 @@ html, body {
     border-radius: 8px;
 }
 
+/* -- Chart -- */
+.alh-chart-container {
+    background: var(--alh-mid-blue);
+    border: 1px solid var(--alh-light-blue);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
