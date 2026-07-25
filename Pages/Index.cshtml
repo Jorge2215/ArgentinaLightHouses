@@ -12,25 +12,44 @@
     <select id="filter-province" class="alh-select form-select form-select-sm" style="width:auto">
         <option value="">All Provinces</option>
     </select>
+    <label for="filter-name" class="alh-control-label">Search by name:</label>
+    <div class="alh-search-control">
+        <input id="filter-name"
+               type="search"
+               class="alh-search-input form-control form-control-sm"
+               placeholder="Find a lighthouse by name"
+               aria-label="Search map lighthouses by name" />
+        <button id="clear-map-search"
+                type="button"
+                class="alh-search-clear"
+                aria-label="Clear map lighthouse search"
+                hidden>
+            ×
+        </button>
+    </div>
     <span id="filter-count" class="alh-pale-text" style="font-size:0.88rem"></span>
 </div>
 <div id="lighthouse-map"></div>
 @section Scripts {
 <script>
-    const lighthouses = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Lighthouses.Select(lh => new {
-        name = lh.Name,
-        location = lh.Location,
-        description = lh.Description,
-        lat = lh.Latitude,
-        lon = lh.Longitude,
-        imageUrl = lh.ImageUrl,
-        weather = lh.Weather == null ? null : (object)new {
-            icon = lh.Weather.WeatherIcon,
-            desc = lh.Weather.WeatherDescription,
-            temp = lh.Weather.TemperatureC,
-            wind = lh.Weather.WindSpeedKmh
-        }
-    })));
+    const lighthouses = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+        Model.Lighthouses.Select(lh => new {
+            lh.Name,
+            lh.Location,
+            lh.Description,
+            Lat = lh.Latitude,
+            Lon = lh.Longitude,
+            lh.ImageUrl,
+            Weather = lh.Weather == null ? null : new {
+                Icon = lh.Weather.WeatherIcon,
+                Desc = lh.Weather.WeatherDescription,
+                Temp = lh.Weather.TemperatureC,
+                Wind = lh.Weather.WindSpeedKmh
+            }
+        }),
+        new System.Text.Json.JsonSerializerOptions {
+            PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
+        }));
 
     const map = L.map("lighthouse-map").setView([-38.5, -63.5], 4);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -72,7 +91,7 @@
 
     const markers = lighthouses.map(lh => {
         const weatherHtml = lh.weather
-            ? "<div class=\"popup-weather\"><div><span class=\"popup-temp\">" + lh.weather.icon + " " + lh.weather.temp.toFixed(1) + "C</span><br><span class=\"popup-wind\">Wind: " + lh.weather.wind.toFixed(1) + " km/h | " + lh.weather.desc + "</span></div></div>"
+            ? "<div class=\"popup-weather\"><div><span class=\"popup-temp\">" + lh.weather.icon + " " + (lh.weather.temp ?? 0).toFixed(1) + "C</span><br><span class=\"popup-wind\">Wind: " + (lh.weather.wind ?? 0).toFixed(1) + " km/h | " + lh.weather.desc + "</span></div></div>"
             : "<p style=\"color:#cce4f5;font-size:0.85rem\">Weather data could not be loaded. Check API configuration.</p>";
         const imageHtml = lh.imageUrl
             ? `<img class="popup-lighthouse-img" src="${lh.imageUrl}" alt="${lh.name}" loading="lazy"><p class="popup-attribution">© <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a></p>`
@@ -84,6 +103,8 @@
     // Build province dropdown
     const provinces = [...new Set(lighthouses.map(lh => getProvince(lh.location)))].sort();
     const sel = document.getElementById('filter-province');
+    const nameFilterInput = document.getElementById('filter-name');
+    const clearMapSearchButton = document.getElementById('clear-map-search');
     provinces.forEach(p => {
         const opt = document.createElement('option');
         opt.value = p; opt.textContent = p;
@@ -92,21 +113,46 @@
 
     function updateFilter() {
         const province = sel.value;
+        const searchTerm = nameFilterInput.value.trim().toLowerCase();
         let count = 0;
         markers.forEach((marker, i) => {
             const lhProvince = getProvince(lighthouses[i].location);
-            if (!province || lhProvince === province) {
+            const matchesProvince = !province || lhProvince === province;
+            const matchesSearch = !searchTerm || lighthouses[i].name.toLowerCase().includes(searchTerm);
+            const markerElement = marker.getElement();
+
+            if (matchesProvince && matchesSearch) {
                 marker.addTo(map);
+                marker.getElement()?.classList.toggle('alh-map-marker-match', !!searchTerm);
                 count++;
             } else {
+                markerElement?.classList.remove('alh-map-marker-match');
                 marker.remove();
             }
         });
-        document.getElementById('filter-count').textContent =
-            province ? `${count} lighthouse${count !== 1 ? 's' : ''} in ${province}` : `${lighthouses.length} lighthouses`;
+
+        clearMapSearchButton.hidden = !searchTerm;
+
+        const activeFilters = [];
+        if (province) {
+            activeFilters.push(province);
+        }
+        if (searchTerm) {
+            activeFilters.push(`matching "${nameFilterInput.value.trim()}"`);
+        }
+
+        document.getElementById('filter-count').textContent = activeFilters.length
+            ? `${count} lighthouse${count !== 1 ? 's' : ''} ${activeFilters.join(' • ')}`
+            : `${lighthouses.length} lighthouses`;
     }
 
     sel.addEventListener('change', updateFilter);
+    nameFilterInput.addEventListener('input', updateFilter);
+    clearMapSearchButton.addEventListener('click', () => {
+        nameFilterInput.value = '';
+        nameFilterInput.focus();
+        updateFilter();
+    });
     updateFilter();
 </script>
 }

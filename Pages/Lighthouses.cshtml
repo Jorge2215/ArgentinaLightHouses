@@ -5,10 +5,28 @@
 }
 <h1 class="alh-page-title">Argentina Lighthouses</h1>
 <p class="alh-page-subtitle">@Model.Lighthouses.Count lighthouses with live weather conditions.</p>
-<div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+<div class="alh-grid-controls mb-4 d-flex flex-wrap gap-3 align-items-center">
+    <label for="lighthouse-search" class="alh-control-label">Search by name:</label>
+    <div class="alh-search-control">
+        <input id="lighthouse-search"
+               type="search"
+               class="alh-search-input form-control"
+               placeholder="Find a lighthouse by name"
+               aria-label="Search lighthouses by name" />
+        <button id="clear-lighthouse-search"
+                type="button"
+                class="alh-search-clear"
+                aria-label="Clear lighthouse search"
+                hidden>
+            ×
+        </button>
+    </div>
+    <span id="lighthouse-search-count" class="alh-pale-text" aria-live="polite">@Model.Lighthouses.Count lighthouses</span>
+</div>
+<div id="lighthouse-card-grid" class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
     @foreach (var lh in Model.Lighthouses)
     {
-        <div class="col">
+        <div class="col alh-lighthouse-card" data-lighthouse-name="@lh.Name">
             <div class="card alh-card p-3">
                 <div class="d-flex justify-content-between align-items-start">
                     <div>
@@ -39,3 +57,45 @@
         </div>
     }
 </div>
+<div id="no-lighthouses-found" class="alh-alert-warning mt-4 d-none" role="status" aria-live="polite">
+    No lighthouses found.
+</div>
+
+@section Scripts {
+<script>
+    const lighthouseSearchInput = document.getElementById('lighthouse-search');
+    const lighthouseSearchClearButton = document.getElementById('clear-lighthouse-search');
+    const lighthouseCards = Array.from(document.querySelectorAll('.alh-lighthouse-card'));
+    const lighthouseSearchCount = document.getElementById('lighthouse-search-count');
+    const noLighthousesFound = document.getElementById('no-lighthouses-found');
+    const totalLighthouseCount = lighthouseCards.length;
+
+    function updateLighthouseFilter() {
+        const searchTerm = lighthouseSearchInput.value.trim().toLowerCase();
+        let visibleCount = 0;
+
+        lighthouseCards.forEach(card => {
+            const lighthouseName = (card.dataset.lighthouseName || '').toLowerCase();
+            const matchesSearch = !searchTerm || lighthouseName.includes(searchTerm);
+            card.hidden = !matchesSearch;
+
+            if (matchesSearch) {
+                visibleCount++;
+            }
+        });
+
+        lighthouseSearchClearButton.hidden = !searchTerm;
+        noLighthousesFound.classList.toggle('d-none', visibleCount > 0);
+        lighthouseSearchCount.textContent = `${visibleCount} of ${totalLighthouseCount} lighthouses`;
+    }
+
+    lighthouseSearchInput.addEventListener('input', updateLighthouseFilter);
+    lighthouseSearchClearButton.addEventListener('click', () => {
+        lighthouseSearchInput.value = '';
+        lighthouseSearchInput.focus();
+        updateLighthouseFilter();
+    });
+
+    updateLighthouseFilter();
+</script>
+}

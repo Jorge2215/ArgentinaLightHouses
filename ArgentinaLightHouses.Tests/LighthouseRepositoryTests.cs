@@ -42,6 +42,17 @@ public class LighthouseRepositoryTests
     }
 
     [Fact]
+    public void GetAll_AllLocationsProduceNonEmptyProvinceTokenForMapSearchFilter()
+    {
+        Assert.All(_lighthouses, lh =>
+        {
+            var provinceToken = lh.Location.Split(',').Last().Trim();
+            Assert.False(string.IsNullOrWhiteSpace(provinceToken),
+                $"Lighthouse '{lh.Name}' has a Location that cannot produce a province filter token: '{lh.Location}'");
+        });
+    }
+
+    [Fact]
     public void GetAll_AllLighthousesHaveNonEmptyDescription()
     {
         Assert.All(_lighthouses, lh =>

@@ -87,6 +87,35 @@ public class IndexModelTests
         Assert.Same(secondWeather, model.Lighthouses[1].Weather);
     }
 
+    [Fact]
+    public async Task OnGetAsync_PreservesSearchableNameAndLocationFieldsForClientFiltering()
+    {
+        var lighthouses = new List<Lighthouse>
+        {
+            new() { Name = "Faro Test Norte", Location = "Puerto Deseado, Santa Cruz", Latitude = -47.75, Longitude = -65.9 },
+            new() { Name = "Faro Test Sur", Location = "Canal Beagle, Tierra del Fuego", Latitude = -54.86, Longitude = -68.08 }
+        };
+        var weatherService = new Mock<IWeatherService>();
+        weatherService
+            .Setup(s => s.GetWeatherAsync(It.IsAny<double>(), It.IsAny<double>()))
+            .ReturnsAsync((WeatherInfo?)null);
+        var model = new TestableIndexModel(weatherService.Object, lighthouses);
+
+        await model.OnGetAsync();
+
+        Assert.Collection(model.Lighthouses,
+            lighthouse =>
+            {
+                Assert.Equal("Faro Test Norte", lighthouse.Name);
+                Assert.Equal("Puerto Deseado, Santa Cruz", lighthouse.Location);
+            },
+            lighthouse =>
+            {
+                Assert.Equal("Faro Test Sur", lighthouse.Name);
+                Assert.Equal("Canal Beagle, Tierra del Fuego", lighthouse.Location);
+            });
+    }
+
     private sealed class TestableIndexModel(IWeatherService weatherService, List<Lighthouse>? lighthouses = null)
         : IndexModel(weatherService)
     {
