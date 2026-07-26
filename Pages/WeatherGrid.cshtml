@@ -77,6 +77,12 @@
     </table>
 </div>
 
+<div class="alh-weather-legend mt-3" aria-label="Extreme weather legend">
+    <span class="alh-weather-legend-item alh-weather-frost"><span aria-hidden="true">❄️</span> Frost (≤ 0°C)</span>
+    <span class="alh-weather-legend-item alh-weather-wind"><span aria-hidden="true">💨</span> High Winds (≥ 60 km/h)</span>
+    <span class="alh-weather-legend-item alh-weather-storm"><span aria-hidden="true">⛈️</span> Storm / Heavy Rain (WMO 80-82, 95-99)</span>
+</div>
+
 <div class="alh-pagination d-flex align-items-center gap-3 mt-3" id="pagination-controls" aria-label="Pagination">
     <button id="btn-prev" class="btn btn-sm alh-btn-secondary" aria-label="Previous page">← Prev</button>
     <span id="page-info" class="alh-pale-text" aria-live="polite"></span>
@@ -185,16 +191,27 @@
         } else if (page.length === 0) {
             tbody.innerHTML = '<tr><td colspan="7" class="text-center" style="color:var(--alh-pale-blue);padding:2rem">No records match the current filter.</td></tr>';
         } else {
-            tbody.innerHTML = page.map(r => `
-                <tr>
-                    <td>${escHtml(r.name)}</td>
+            tbody.innerHTML = page.map(r => {
+                const alert = getExtremeWeatherAlert(r);
+
+                return `
+                <tr class="${alert.rowClass}">
+                    <td>
+                        <div class="alh-weather-name-cell">
+                            <span>${escHtml(r.name)}</span>
+                            ${alert.icons.length
+                                ? `<span class="alh-weather-alert-icon" title="${escHtml(alert.title)}" aria-label="${escHtml(alert.title)}">${alert.icons.join(' ')}</span>`
+                                : ''}
+                        </div>
+                    </td>
                     <td>${escHtml(r.date)}</td>
                     <td>${escHtml(r.time)}</td>
                     <td class="${tempClass(r.temperatureCelsius ?? 0)}">${(r.temperatureCelsius ?? 0).toFixed(1)}</td>
                     <td>${(r.windSpeedKmh ?? 0).toFixed(1)}</td>
                     <td>${(r.windDirectionDegrees ?? 0).toFixed(0)}</td>
                     <td class="${tempClass(r.windchillCelsius ?? 0)}">${(r.windchillCelsius ?? 0).toFixed(1)}</td>
-                </tr>`).join('');
+                </tr>`;
+            }).join('');
         }
 
         document.getElementById('page-info').textContent =
@@ -219,6 +236,46 @@
         if (t <= 0)   return 'alh-temp-cold';
         if (t >= 30)  return 'alh-temp-hot';
         return '';
+    }
+
+    function getExtremeWeatherAlert(record) {
+        const temperature = record.temperatureCelsius ?? 0;
+        const windSpeed = record.windSpeedKmh ?? 0;
+        const weatherCode = record.weatherCode ?? 0;
+        const hasFrost = temperature <= 0;
+        const hasHighWinds = windSpeed >= 60;
+        const hasStorm = isStormWeatherCode(weatherCode);
+        const icons = [];
+        const labels = [];
+        let rowClass = '';
+
+        if (hasFrost) {
+            icons.push('❄️');
+            labels.push('Frost');
+            rowClass = 'alh-weather-frost';
+        }
+
+        if (hasHighWinds) {
+            icons.push('💨');
+            labels.push('High winds');
+            rowClass = 'alh-weather-wind';
+        }
+
+        if (hasStorm) {
+            icons.push('⛈️');
+            labels.push('Storm');
+            rowClass = 'alh-weather-storm';
+        }
+
+        return {
+            rowClass,
+            icons,
+            title: labels.join(', ')
+        };
+    }
+
+    function isStormWeatherCode(weatherCode) {
+        return (weatherCode >= 95 && weatherCode <= 99) || (weatherCode >= 80 && weatherCode <= 82);
     }
 
     function render() { applySort(); renderTable(); buildChart(); }

@@ -34,16 +34,7 @@ public class WeatherGridService : IWeatherGridService
 
             await foreach (var entity in tableClient.QueryAsync<TableEntity>(filter: filter))
             {
-                records.Add(new WeatherRecord
-                {
-                    Name = entity.GetString("Name") ?? string.Empty,
-                    Date = entity.GetString("Date") ?? string.Empty,
-                    Time = entity.GetString("Time") ?? string.Empty,
-                    TemperatureCelsius = entity.GetDouble("TemperatureCelsius") ?? 0,
-                    WindSpeedKmh = entity.GetDouble("WindSpeedKmh") ?? 0,
-                    WindDirectionDegrees = entity.GetDouble("WindDirectionDegrees") ?? 0,
-                    WindchillCelsius = entity.GetDouble("WindchillCelsius") ?? 0
-                });
+                records.Add(MapRecord(entity));
             }
 
             return [.. records.OrderByDescending(r => r.Date).ThenByDescending(r => r.Time)];
@@ -54,4 +45,21 @@ public class WeatherGridService : IWeatherGridService
             return [];
         }
     }
+
+    internal static WeatherRecord MapRecord(TableEntity entity) => new()
+    {
+        Name = entity.GetString("Name") ?? string.Empty,
+        Date = entity.GetString("Date") ?? string.Empty,
+        Time = entity.GetString("Time") ?? string.Empty,
+        TemperatureCelsius = entity.GetDouble("TemperatureCelsius") ?? 0,
+        WindSpeedKmh = entity.GetDouble("WindSpeedKmh") ?? 0,
+        WindDirectionDegrees = entity.GetDouble("WindDirectionDegrees") ?? 0,
+        WindchillCelsius = entity.GetDouble("WindchillCelsius") ?? 0,
+        WeatherCode = GetWeatherCode(entity)
+    };
+
+    internal static int GetWeatherCode(TableEntity entity)
+        => entity.TryGetValue("WeatherCode", out var weatherCodeValue) && weatherCodeValue is not null
+            ? Convert.ToInt32(weatherCodeValue)
+            : 0;
 }
