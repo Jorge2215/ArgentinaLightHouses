@@ -46,7 +46,7 @@ public class WeatherGridService : IWeatherGridService
         }
     }
 
-    internal static WeatherRecord MapRecord(TableEntity entity) => new()
+    public static WeatherRecord MapRecord(TableEntity entity) => new()
     {
         Name = entity.GetString("Name") ?? string.Empty,
         Date = entity.GetString("Date") ?? string.Empty,
