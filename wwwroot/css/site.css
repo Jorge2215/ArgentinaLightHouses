@@ -282,6 +282,90 @@ html, body {
     font-weight: 500;
 }
 
+.alh-table tbody tr.alh-weather-frost td {
+    background-color: rgba(126, 200, 227, 0.16);
+    color: var(--alh-white);
+}
+
+.alh-table tbody tr.alh-weather-wind td {
+    background-color: rgba(255, 176, 64, 0.16);
+    color: var(--alh-white);
+}
+
+.alh-table tbody tr.alh-weather-storm td {
+    background-color: rgba(224, 94, 63, 0.2);
+    color: var(--alh-white);
+}
+
+.alh-table tbody tr.alh-weather-frost td:first-child {
+    border-left: 3px solid #7ec8e3;
+}
+
+.alh-table tbody tr.alh-weather-wind td:first-child {
+    border-left: 3px solid #ffb040;
+}
+
+.alh-table tbody tr.alh-weather-storm td:first-child {
+    border-left: 3px solid #ff6b57;
+}
+
+.alh-table tbody tr.alh-weather-frost:hover td {
+    background-color: rgba(126, 200, 227, 0.22);
+}
+
+.alh-table tbody tr.alh-weather-wind:hover td {
+    background-color: rgba(255, 176, 64, 0.22);
+}
+
+.alh-table tbody tr.alh-weather-storm:hover td {
+    background-color: rgba(224, 94, 63, 0.26);
+}
+
+.alh-weather-name-cell {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.alh-weather-alert-icon {
+    font-size: 0.95rem;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.alh-weather-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.alh-weather-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    color: var(--alh-white);
+    font-size: 0.85rem;
+}
+
+.alh-weather-legend-item.alh-weather-frost {
+    background-color: rgba(126, 200, 227, 0.16);
+    border-color: rgba(126, 200, 227, 0.6);
+}
+
+.alh-weather-legend-item.alh-weather-wind {
+    background-color: rgba(255, 176, 64, 0.16);
+    border-color: rgba(255, 176, 64, 0.6);
+}
+
+.alh-weather-legend-item.alh-weather-storm {
+    background-color: rgba(224, 94, 63, 0.2);
+    border-color: rgba(255, 107, 87, 0.65);
+}
+
 .alh-temp-cold {
     color: #7ec8e3 !important;
 }
