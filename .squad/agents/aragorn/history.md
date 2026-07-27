@@ -57,3 +57,45 @@
 - Verified the WeatherGrid date range filter workflow after implementation for issue #21.
 - Confirmed **22/22 tests passing** and validated that the Azure deployment succeeded.
 - Delivery status: live site verification completed and confirmed by Jorgito.
+
+### 2026-07-17T22:31:48.541-03:00 — Full suite regression run
+ 
+- Ran `dotnet test` from the repository root.
+- Result: **22 total / 22 passed / 0 failed / 0 skipped**.
+- Suite remains green with no regression failures observed.
+
+### 2026-07-17T22:35:08.403-03:00 — Page model and weather service coverage expansion
+ 
+- **New test files:** `IndexModelTests.cs`, `LighthousesModelTests.cs`, and `WeatherServiceTests.cs`.
+- **IndexModel coverage (4 tests):** success path loads repository data, null weather results are tolerated, empty lighthouse lists stay empty without calling the service, and fetched `WeatherInfo` instances are written back onto the corresponding `Lighthouse` objects.
+- **LighthousesModel coverage (3 tests):** success path loads lighthouses, null weather results are tolerated, and the page model exposes the populated `Lighthouses` list after `OnGetAsync`.
+- **WeatherService coverage (8 test cases):** JSON success-path parsing, graceful `HttpClient` failure handling, known/unknown weather description mapping, known weather icon mapping, and invariant-culture URL formatting validated via captured request URI.
+- **Patterns used:** Moq remains the standard mocking library; page-model tests use small test-only subclasses to override lighthouse sources, and `NullLogger<T>` is still the logger test double convention for concrete services.
+- **Testability seam:** Added protected virtual `GetLighthouses()` methods to `IndexModel` and `LighthousesModel` so empty/custom repository scenarios can be exercised without changing runtime behavior.
+- **Verification:** `dotnet test --no-restore` passed with **37 total / 37 passed / 0 failed / 0 skipped**.
+
+### 2026-07-25T20:24:07.610-03:00 — Issue #30 search regression verification
+
+- Reviewed `ArgentinaLightHouses.Tests\IndexModelTests.cs` and `ArgentinaLightHouses.Tests\LighthousesModelTests.cs` to confirm local conventions: xUnit + Moq, page-model subclasses for custom repository input, and `OnGetAsync()`-focused coverage.
+- Ran `dotnet test --nologo` before changes: **37 passed / 0 failed / 0 skipped**.
+- Added **2 search-adjacent server-side tests**:
+  - `IndexModelTests.OnGetAsync_PreservesSearchableNameAndLocationFieldsForClientFiltering` verifies the map page model keeps `Name` and `Location` intact for the client-side search/filter script.
+  - `LighthouseRepositoryTests.GetAll_AllLocationsProduceNonEmptyProvinceTokenForMapSearchFilter` verifies every repository location can yield a non-empty province token using the same last-segment rule as the map filter.
+- Ran `dotnet test --nologo` after additions: **39 passed / 0 failed / 0 skipped**.
+- Verified gap: the actual real-time filtering behavior, clear buttons, “No lighthouses found” state, and Leaflet marker visibility/highlight remain **client-side JavaScript only** and are not directly testable with the current xUnit server-side suite.
+
+### 2026-07-25T21:32:00.174-03:00 — Issue #28 extreme weather regression verification
+
+- Reviewed `Models\WeatherRecord.cs` and `Services\WeatherGridService.cs` to confirm the server-side delta: `WeatherCode` was added to `WeatherRecord`, and `WeatherGridService` now reads `WeatherCode` from Azure Table entities with a `0` fallback when absent.
+- Ran baseline `dotnet test`: **39 passed / 0 failed / 0 skipped**.
+- Added **23 server-side tests** for the new weather-grid behavior:
+  - `WeatherRecordTests.cs` covers frost (`<= 0°C`), high wind (`>= 60 km/h`), storm WMO code boundaries (`80-82`, `95-99`), and severity precedence (`storm > wind > frost`) via computed model properties.
+  - `WeatherGridServiceTests.cs` now verifies `MapRecord()` preserves boundary `WeatherCode` values and defaults missing `WeatherCode` to `0`.
+- Added a small testability seam only: `WeatherGridService.MapRecord()` / `GetWeatherCode()` plus `InternalsVisibleTo` for the test assembly; runtime behavior is unchanged.
+- Ran `dotnet test` after additions: **62 passed / 0 failed / 0 skipped**.
+- Verified gap: icon stacking, row-class application inside `renderTable()`, and legend rendering remain client-side JavaScript/CSS behavior and are still not directly exercised by the current xUnit-only server-side suite.
+
+### 2026-07-26T00:58:26Z — Orchestration note
+
+- Ran full test suite and added 23 tests for WeatherRecord and WeatherGridService; verified 62/62 passing.
+

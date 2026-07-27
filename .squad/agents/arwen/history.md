@@ -36,3 +36,22 @@
 - Added **Date From** and **Date To** pickers to Pages/WeatherGrid.cshtml for WeatherGrid filtering.
 - Added .alh-date-input styling in wwwroot/css/site.css to match the ALH dark nautical theme.
 - Delivery status: implementation merged in PR #22, Azure deployment is live, and Jorgito confirmed live verification.
+
+### 2026-07-25T20:22:34-03:00 — Issue #30 lighthouse search UX delivered
+
+- Added real-time name search to `Pages/Lighthouses.cshtml` with a DOM-filtering pattern that toggles card visibility using `hidden` on the existing rendered card columns.
+- Added a matching search control to `Pages/Index.cshtml`; province and name filters now combine, and matching visible markers receive an `.alh-map-marker-match` highlight state.
+- Added reusable frontend search styles in `wwwroot/css/site.css`: `.alh-search-control`, `.alh-search-input`, `.alh-search-clear`, and `.alh-map-marker-match`.
+- Reinforced Arwen's inline JSON pattern on the map page by using `JsonNamingPolicy.CamelCase` and guarding numeric popup formatting with `?? 0` before `.toFixed()`.
+
+### 2026-07-25T21:29:54-03:00 — Issue #28 extreme weather highlighting delivered
+
+- Added Weather Grid row severity highlighting in `Pages/WeatherGrid.cshtml` for frost (`temperatureCelsius <= 0`), high winds (`windSpeedKmh >= 60`), and storm/heavy-rain weather codes (`80-82`, `95-99`), with severity precedence `storm > wind > frost`.
+- Added inline alert icons beside lighthouse names plus a legend under the table so operators can quickly interpret highlighted rows without leaving the grid.
+- Extended `WeatherRecord` / `WeatherGridService` to include `WeatherCode` from Azure Table Storage and added ALH-themed highlight styles in `wwwroot/css/site.css`.
+
+### 2026-07-26T00:58:26Z — Orchestration note
+
+- Implemented extreme-weather highlights (frost/wind/storm thresholds), added client-side icons and legend; integrated WeatherCode into WeatherRecord and WeatherGridService. 
+- Build: clean. Tests: 62/62 passing.
+
