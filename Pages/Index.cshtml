@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Map";
 }
+@section Styles {
+    <link rel="stylesheet" href="~/lib/leaflet.markercluster/MarkerCluster.css" />
+    <link rel="stylesheet" href="~/lib/leaflet.markercluster/MarkerCluster.Default.css" />
+}
 <div class="mb-3">
     <h1 class="alh-page-title">Map of Argentina Lighthouses</h1>
     <p class="alh-page-subtitle">@Model.Lighthouses.Count lighthouses positioned on the map with live weather from Open-Meteo (Developed by Gandalf and Jorgito)</p>
@@ -31,7 +35,10 @@
 </div>
 <div id="lighthouse-map"></div>
 @section Scripts {
+<script src="~/lib/leaflet.markercluster/leaflet.markercluster.js"></script>
 <script>
+    const defaultMapCenter = [-38.5, -63.5];
+    const defaultMapZoom = 4;
     const lighthouses = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
         Model.Lighthouses.Select(lh => new {
             lh.Name,
@@ -51,7 +58,7 @@
             PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase
         }));
 
-    const map = L.map("lighthouse-map").setView([-38.5, -63.5], 4);
+    const map = L.map("lighthouse-map").setView(defaultMapCenter, defaultMapZoom);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 18,
         attribution: "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"
@@ -84,12 +91,39 @@
         popupAnchor: [0, -46]
     });
 
+    const clusterGroup = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        maxClusterRadius: 50,
+        spiderfyOnMaxZoom: true,
+        polygonOptions: {
+            color: "#7ec8e3",
+            weight: 1,
+            fillColor: "#1a3a5c",
+            fillOpacity: 0.18
+        },
+        iconCreateFunction(cluster) {
+            const childCount = cluster.getChildCount();
+            const sizeClass = childCount < 10
+                ? "marker-cluster-small"
+                : childCount < 100
+                    ? "marker-cluster-medium"
+                    : "marker-cluster-large";
+
+            return L.divIcon({
+                html: `<div><span>${childCount}</span></div>`,
+                className: `marker-cluster alh-marker-cluster ${sizeClass}`,
+                iconSize: L.point(40, 40)
+            });
+        }
+    });
+    const searchResultsLayer = L.layerGroup().addTo(map);
+
     function getProvince(location) {
         const parts = location.split(',');
         return parts[parts.length - 1].trim();
     }
 
-    const markers = lighthouses.map(lh => {
+    const markerEntries = lighthouses.map(lh => {
         const weatherHtml = lh.weather
             ? "<div class=\"popup-weather\"><div><span class=\"popup-temp\">" + lh.weather.icon + " " + (lh.weather.temp ?? 0).toFixed(1) + "C</span><br><span class=\"popup-wind\">Wind: " + (lh.weather.wind ?? 0).toFixed(1) + " km/h | " + lh.weather.desc + "</span></div></div>"
             : "<p style=\"color:#cce4f5;font-size:0.85rem\">Weather data could not be loaded. Check API configuration.</p>";
@@ -97,7 +131,10 @@
             ? `<img class="popup-lighthouse-img" src="${lh.imageUrl}" alt="${lh.name}" loading="lazy"><p class="popup-attribution">© <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons</a></p>`
             : "";
         const popup = "<div>" + imageHtml + "<div class=\"popup-title\">" + lh.name + "</div><div class=\"popup-location\">" + lh.location + "</div><div style=\"color:#e0f0ff;font-size:0.83rem;margin-bottom:4px\">" + lh.description + "</div>" + weatherHtml + "</div>";
-        return L.marker([lh.lat, lh.lon], { icon: lighthouseIcon }).addTo(map).bindPopup(popup, { maxWidth: 300 });
+        return {
+            lighthouse: lh,
+            marker: L.marker([lh.lat, lh.lon], { icon: lighthouseIcon }).bindPopup(popup, { maxWidth: 300 })
+        };
     });
 
     // Build province dropdown
@@ -111,25 +148,65 @@
         sel.appendChild(opt);
     });
 
+    function clearMarkerHighlights() {
+        markerEntries.forEach(({ marker }) => marker.getElement()?.classList.remove('alh-map-marker-match'));
+    }
+
+    function syncMarkerLayer(entries, searchTerm) {
+        clearMarkerHighlights();
+        clusterGroup.clearLayers();
+        searchResultsLayer.clearLayers();
+        map.removeLayer(clusterGroup);
+
+        if (!searchTerm) {
+            clusterGroup.addLayers(entries.map(({ marker }) => marker));
+            clusterGroup.addTo(map);
+            return;
+        }
+
+        entries.forEach(({ marker }) => searchResultsLayer.addLayer(marker));
+        window.requestAnimationFrame(() => {
+            entries.forEach(({ marker }) => marker.getElement()?.classList.add('alh-map-marker-match'));
+        });
+    }
+
+    function updateMapViewport(entries, province, searchTerm) {
+        if (!entries.length) {
+            map.setView(defaultMapCenter, defaultMapZoom);
+            return;
+        }
+
+        if (!province && !searchTerm) {
+            map.setView(defaultMapCenter, defaultMapZoom);
+            return;
+        }
+
+        const bounds = L.latLngBounds(entries.map(({ lighthouse }) => [lighthouse.lat, lighthouse.lon]));
+
+        if (searchTerm && entries.length === 1) {
+            map.setView(bounds.getCenter(), Math.max(map.getZoom(), 8));
+            return;
+        }
+
+        map.fitBounds(bounds, {
+            padding: [32, 32],
+            maxZoom: searchTerm ? 9 : 6
+        });
+    }
+
     function updateFilter() {
         const province = sel.value;
         const searchTerm = nameFilterInput.value.trim().toLowerCase();
-        let count = 0;
-        markers.forEach((marker, i) => {
-            const lhProvince = getProvince(lighthouses[i].location);
+        const filteredEntries = markerEntries.filter(({ lighthouse }) => {
+            const lhProvince = getProvince(lighthouse.location);
             const matchesProvince = !province || lhProvince === province;
-            const matchesSearch = !searchTerm || lighthouses[i].name.toLowerCase().includes(searchTerm);
-            const markerElement = marker.getElement();
-
-            if (matchesProvince && matchesSearch) {
-                marker.addTo(map);
-                marker.getElement()?.classList.toggle('alh-map-marker-match', !!searchTerm);
-                count++;
-            } else {
-                markerElement?.classList.remove('alh-map-marker-match');
-                marker.remove();
-            }
+            const matchesSearch = !searchTerm || lighthouse.name.toLowerCase().includes(searchTerm);
+            return matchesProvince && matchesSearch;
         });
+        const count = filteredEntries.length;
+
+        syncMarkerLayer(filteredEntries, searchTerm);
+        updateMapViewport(filteredEntries, province, searchTerm);
 
         clearMapSearchButton.hidden = !searchTerm;
 
