@@ -4,6 +4,7 @@ using ArgentinaLightHouses.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<IWeatherService, WeatherService>();
 builder.Services.AddSingleton<IWeatherGridService, WeatherGridService>();
 
