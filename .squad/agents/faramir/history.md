@@ -32,3 +32,16 @@
 - Committed the WeatherGrid date range filter feature for issue #21 and pushed it to dev.
 - Merged PR #22 into main and confirmed the Azure deployment completed successfully.
 - Delivery status: production is live with the date filter and the rollout was verified by Jorgito.
+
+### 2026-07-25T23:53:10Z — Issue #30 merge and deploy
+
+- Committed change f10a7d65 and pushed branch `dev`.
+- PR opened by Jorgito and merged into `main`.
+- Azure deployment workflow triggered and reported success (see Actions/Deploy logs).
+- Notes: This merge delivered the real-time search UX for Lighthouses and Map pages originally implemented by Arwen; test suite verification by Aragorn reports 39/39 passing.
+
+
+### 2026-07-26T00:58:26Z — Orchestration note
+
+- Committed CI fix (MapRecord visibility) and coordinated PR merge; deployment verified live.
+
