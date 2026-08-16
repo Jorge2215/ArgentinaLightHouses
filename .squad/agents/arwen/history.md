@@ -55,3 +55,13 @@
 - Implemented extreme-weather highlights (frost/wind/storm thresholds), added client-side icons and legend; integrated WeatherCode into WeatherRecord and WeatherGridService. 
 - Build: clean. Tests: 62/62 passing.
 
+### 2026-07-27T16:46:09.567-03:00 — Issue #24 marker clustering delivered
+
+- Added local `Leaflet.markercluster` assets under `wwwroot/lib/leaflet.markercluster/` and wired them into the map page with a new optional `Styles` Razor section in `_Layout.cshtml`.
+- Refactored `Pages/Index.cshtml` so map markers flow through `L.markerClusterGroup()` at low zoom, while active name searches switch to a plain `L.layerGroup()` to keep matches individually visible and highlighted.
+- Added ALH-themed cluster bubble styling in `wwwroot/css/site.css` and preserved existing province/search count behavior.
+
+### 2026-07-27T20:02:07Z — Issue #24 delivered
+
+- Implemented Leaflet.markercluster; assets added under wwwroot/lib/leaflet.markercluster/; optional Styles section added in _Layout.cshtml; Index.cshtml updated to use markerClusterGroup().
+

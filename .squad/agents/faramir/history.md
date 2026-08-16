@@ -45,3 +45,8 @@
 
 - Committed CI fix (MapRecord visibility) and coordinated PR merge; deployment verified live.
 
+
+### 2026-07-27T20:02:07Z — PR #37 merge
+
+- Committed change 6c9e21a, opened PR #37, PR merged by Jorgito; Azure deploy triggered.
+

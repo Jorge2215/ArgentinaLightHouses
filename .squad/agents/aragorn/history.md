@@ -96,6 +96,19 @@
 - Verified gap: icon stacking, row-class application inside `renderTable()`, and legend rendering remain client-side JavaScript/CSS behavior and are still not directly exercised by the current xUnit-only server-side suite.
 
 ### 2026-07-26T00:58:26Z — Orchestration note
-
+ 
 - Ran full test suite and added 23 tests for WeatherRecord and WeatherGridService; verified 62/62 passing.
+
+### 2026-07-27T16:51:36.032-03:00 — Issue #24 markercluster regression verification
+
+- Ran `dotnet test --nologo` from the repository root.
+- Result: **62 total / 62 passed / 0 failed / 0 skipped**.
+- Confirmed the Leaflet.markercluster change is client-side only; no new meaningful server-side tests were added.
+- Ran `dotnet build -c Release --nologo`.
+- Result: **Build succeeded** with **0 warnings / 0 errors**.
+- No regression issues found in the existing automated server-side suite or Release build.
+
+### 2026-07-27T20:02:07Z — Issue #24 verification
+
+- Ran full test suite and Release build: 62/62 tests passing; Release build succeeded.
 
