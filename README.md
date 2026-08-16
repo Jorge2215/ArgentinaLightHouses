@@ -82,7 +82,7 @@ ArgentinaLightHouses is a web application that showcases all 61 official lightho
 
 ---
 
-For architecture, decisions, and team history, see `.squad/`.
+For architecture, decisions, and team history, see `.squad/`..
 
 ##Resume
 copilot --resume=b2cca19f-c122-495b-a454-c6932f8a1b55
