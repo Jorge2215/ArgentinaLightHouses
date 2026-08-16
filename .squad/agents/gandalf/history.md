@@ -146,6 +146,21 @@
 - `.github/workflows/azure-deploy.yml` — OIDC workflow replacing Publish Profile
 - `.squad/decisions/inbox/gandalf-oidc-deploy.md` — decision recorded
 
+### 2026-07-02 — CedearsList.json storage architecture analysis
+
+**Task:** Jorgito asked whether CedearsList.json should move from embedded Data/ folder to Azure Blob Storage.
+
+**Key findings:**
+- `CedearsList.json` does not currently exist in the repository — this is a forward-looking decision for a planned feature
+- The app already has `AzureStorageConnection` wired up and `WeatherGridService` reading from Azure Table Storage — the pattern is proven
+- No existing Azure Blob Storage usage anywhere in the codebase (only Table Storage)
+- Resource group `LightHouses_rg` is already the deployment target
+
+**Recommendation:** Move to Azure Blob Storage. The infrastructure cost is already paid (connection string, Storage Account in the resource group). Follow the same graceful-degradation pattern as WeatherGridService. Add IMemoryCache to avoid repeated blob reads.
+
+**Files created:**
+- `.squad/decisions/inbox/gandalf-cedears-storage-analysis.md`
+
 ### 2026-06-02 — Azure Function documentation
 
 **Task:** Wrote technical and architectural documentation for the new Azure Function at `docs/azure-function-architecture.md`.
