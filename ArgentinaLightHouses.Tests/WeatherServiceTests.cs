@@ -3,7 +3,9 @@ using System.Net;
 using System.Text;
 using ArgentinaLightHouses.Models;
 using ArgentinaLightHouses.Services;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
 
@@ -11,6 +13,12 @@ namespace ArgentinaLightHouses.Tests;
 
 public class WeatherServiceTests
 {
+    private static IMemoryCache NewCache() =>
+        new MemoryCache(new MemoryCacheOptions());
+
+    private static WeatherService BuildService(HttpMessageHandler handler, IMemoryCache? cache = null) =>
+        new(new HttpClient(handler), NullLogger<WeatherService>.Instance, cache ?? NewCache());
+
     [Fact]
     public async Task GetWeatherAsync_SuccessfulFetch_ReturnsPopulatedWeatherInfo()
     {
@@ -37,7 +45,7 @@ public class WeatherServiceTests
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             });
-        var service = new WeatherService(new HttpClient(handler.Object), NullLogger<WeatherService>.Instance);
+        var service = BuildService(handler.Object);
 
         try
         {
@@ -70,13 +78,52 @@ public class WeatherServiceTests
                 ItExpr.IsAny<HttpRequestMessage>(),
                 ItExpr.IsAny<CancellationToken>())
             .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.InternalServerError));
-        var service = new WeatherService(new HttpClient(handler.Object), NullLogger<WeatherService>.Instance);
+        var service = BuildService(handler.Object);
 
         var exception = await Record.ExceptionAsync(() => service.GetWeatherAsync(-40.0, -60.0));
         var result = await service.GetWeatherAsync(-40.0, -60.0);
 
         Assert.Null(exception);
         Assert.Null(result);
+    }
+
+    [Fact]
+    public async Task GetWeatherAsync_SecondCall_ReturnsCachedResultWithoutHttpRequest()
+    {
+        const string json = """
+            {
+              "current": {
+                "temperature_2m": 10.0,
+                "wind_speed_10m": 15.0,
+                "weather_code": 0
+              }
+            }
+            """;
+        var handler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+        handler
+            .Protected()
+            .Setup<Task<HttpResponseMessage>>(
+                "SendAsync",
+                ItExpr.IsAny<HttpRequestMessage>(),
+                ItExpr.IsAny<CancellationToken>())
+            .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(json, Encoding.UTF8, "application/json")
+            });
+        var service = BuildService(handler.Object);
+
+        var first = await service.GetWeatherAsync(-34.0, -58.0);
+        var second = await service.GetWeatherAsync(-34.0, -58.0);
+
+        Assert.NotNull(first);
+        Assert.NotNull(second);
+        Assert.Same(first, second);  // exact same cached object reference
+        // HTTP handler called exactly once — second result came from cache
+        handler.Protected().Verify(
+            "SendAsync",
+            Times.Once(),
+            ItExpr.IsAny<HttpRequestMessage>(),
+            ItExpr.IsAny<CancellationToken>());
     }
 
     [Theory]
